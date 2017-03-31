@@ -26,15 +26,3 @@
   - 发票查验报表集成
   - 每日运行状态报告集成
 
-## 使用框架
-
-- Spring boot
-- Quartz
-- Ant Design
-- Mybatis
-
-## 项目地址
-
-后台：git@git.yonyou.com:e-invoice/operation.git
-
-前端：git@git.yonyou.com:e-invoice/operation-view.git
