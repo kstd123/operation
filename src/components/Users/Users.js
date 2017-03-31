@@ -94,7 +94,8 @@ function Users({ dispatch, list: dataSource, loading, total, page: current }) {
     </div>
   );
 }
-
+//total:数据总数，current:当前页数，pagesize：每页条数
+//onchange：页码改变的回调
 function mapStateToProps(state) {
   const { list, total, page } = state.users;
   return {
