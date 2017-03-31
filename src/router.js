@@ -11,6 +11,15 @@ function registerModel(app, model) {
 
 function RouterConfig({ history, app }) {
   const routes = [
+		{
+			path: '/',
+			name: 'LoginPage',
+			getComponent(nextState, cb) {
+				require.ensure([], (require) => {
+					cb(null, require('./routes/Login'));
+				});
+			},
+		},
     {
       path: '/index',
       name: 'IndexPage',
@@ -31,11 +40,11 @@ function RouterConfig({ history, app }) {
       },
     },
 		{
-			path: '/',
-			name: 'LoginPage',
+			path: '/table',
+			name: 'chartPage',
 			getComponent(nextState, cb) {
 				require.ensure([], (require) => {
-					cb(null, require('./routes/Login'));
+					cb(null, require('./routes/Table'));
 				});
 			},
 		},
