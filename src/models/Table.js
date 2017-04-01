@@ -12,6 +12,11 @@ export default {
 	}
 	effect: {
 		*fetch({ payload: { pageNow = 1}}, { call , put})
-
+		{
+			const { data,headers } = yield call(tableService.fetch, { page });
+			yield put({
+				type: 'save'
+			})
+		}
 	}
 }

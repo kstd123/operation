@@ -1,5 +1,6 @@
 import { Table, Icon,Pagination } from 'antd';
 import React from 'react';
+import { connect } from 'dva';
 import reqwest from 'reqwest';//ajax
 // const { Column, ColumnGroup } = Table;
 // import data from './data.js';
@@ -110,9 +111,15 @@ class Tables extends React.Component{
 	data: [],
 	pagination: {},
 	loading: false,
+	current: 2,
+	pagesize: 6,
+	total:30
 };
 
-
+pageChange=()=>{
+	console.log("page has been change")
+	this.post_test();
+}
 	fetch = (params = {}) => {
      console.log('params:', params);
      this.setState({ loading: true });
@@ -135,18 +142,58 @@ class Tables extends React.Component{
        });
      });
    }
+	 post_test = (res = {}) => {
+		 console.log('res:',res);
+		 reqwest({
+		    url: 'path/to/json'
+		  , type: 'json'
+		  , method: 'post'
+		  , contentType: 'application/json'
+			, data:{
+					pageNow: this.state.current,
+					pageNum: this.state.pagesize
+				}
+		  , crossOrigin: true
+		  , withCredentials: true
+		  , error: function (err) { console.log("shibaile>>>")}
+		  , success: function (res) {
+				console.log("successs!!!!"+res)
+				 	this.setState({
+					 loading:false,
+					 data: res[0].list,
+					 total: res[0].rowAll
+				 	})
+		    }
+		})
+	 }
    componentDidMount() {
-     this.fetch();
+    //  this.fetch();
+		 this.post_test();
    }
+	 componentDidUpdate() {
+			 this.post_test();
+	 }
 render(){
 	return(<div>
-		 <Table rowSelection={rowSelection} columns={columns} dataSource={this.state.data} loading={this.state.loading} pagination={false}/>
-		<Pagination total={10} current={20}pagesize={2}/>
+		 <Table
+			 rowSelection={rowSelection}
+			 columns={Columns}
+			 dataSource={this.state.data}
+			 loading={this.state.loading}
+			 pagination={false}
+			/>
+		<Pagination
+		showQuickJumper
+		total={this.state.total}
+		current={this.state.current}
+		pagesize={this.state.pagesize}
+/>
 		</div>
 	)
 }
 }
-function mapStateToProps(state) {
-	const {pageNow, pageNum } = state.table;
-}
+// function mapStateToProps(state) {
+// 	const {pageNow, pageNum } = state.table;
+// }
 export default Tables;
+// export default connect(maoStateToProps)(Tables)
