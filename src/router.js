@@ -40,14 +40,51 @@ function RouterConfig({ history, app }) {
       },
     },
 		{
-			path: '/table',
+			path: '/Email',
 			name: 'chartPage',
 			getComponent(nextState, cb) {
 				require.ensure([], (require) => {
-					cb(null, require('./routes/Table'));
+					cb(null, require('./routes/info/Email'));
 				});
 			},
 		},
+		 {
+				path: '/Sms',
+				name: 'tablePage',
+				getComponent(nextState, cb) {
+				require.ensure([], (require) => {
+					cb(null, require('./routes/info/Sms'));
+				});
+			},
+		},
+			{
+			path: '/Url',
+			name: 'chartPage',
+			getComponent(nextState, cb) {
+				require.ensure([], (require) => {
+					cb(null, require('./routes/info/Url'));
+				});
+			},
+		},
+			{
+			path: '/Web',
+			name: 'chartPage',
+			getComponent(nextState, cb) {
+				require.ensure([], (require) => {
+					cb(null, require('./routes/info/Web'));
+				});
+			},
+		},
+			{
+			path: '/Wechat',
+			name: 'chartPage',
+			getComponent(nextState, cb) {
+				require.ensure([], (require) => {
+					cb(null, require('./routes/info/Wechat'));
+				});
+			},
+		},
+
 		{
 			path: '/chart',
 			name: 'chartPage',
