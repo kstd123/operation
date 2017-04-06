@@ -1,25 +1,23 @@
 import { Table, Icon,Pagination } from 'antd';
 import React from 'react';
 import { connect } from 'dva';
-// import reqwest from 'reqwest';
 import request from '../../utils/request';
+import Search from '../Search'
 
-// const { Column, ColumnGroup } = Table;
-// import data from './data.js';
 
 const Columns = [
 	 {
 		 title:"发票请求流水号",
 		 dataIndex:"fpqqlsh",
-		 key:"fpqqlsh"
+		 key:"conditionFpqqlsh"
 	 },{
 		 title:"接收地址",
 		 dataIndex:"address",
-		 key:"address"
+		 key:"conditionAddress"
 	 },{
 		 title:"结果",
 		 dataIndex: "result",
-		 key:"result",
+		 key:"conditionResult",
 		 filters: [
 			 { text: '成功', value: '0' },
 			 { text: '失败', value: '1' },
@@ -61,25 +59,28 @@ class Tables extends React.Component{
 		data: [],
 		pagination: {},
 		loading: false,
-		current: 2,
+		current: 1,
 		pagesize: 6,
-		total:99
+		total:99,
+		search_data:""
 	};
-
-pageChange=(e)=>{
+	pageChange=(e)=>{
 			this.setState({
 				current: e
 			}, ()=>{
-					this.post_test();
+					this.test_123();
 				}
 			)
-}
-
- post_test = (params = {
-	 pageNow: this.state.current,
-	 pageNum: this.state.pagesize
- 	}) => {
-	let data = "pageNow="+this.state.current+"&pageNum="+this.state.pagesize
+	}
+	SearchChange=(e)=>{
+		let self = this;
+		console.log(e);
+		// console.log(self.refs.SearchComponent.state)
+		// (this.refs.SearchComponent.state.data === []) ? console.log("未更新") :this.setState({ current:1,pagesize:6,data:this.refs.SearchComponent.state.data })
+	}
+ post_test = (data = "") => {
+	 data = "pageNow="+this.state.current+"&pageNum="+this.state.pagesize
+	this.setState({ search_data: data })
 	 const req = request( 'http://localhost:8080/email/select/all', {
 		 headers: { "Content-type": "application/x-www-form-urlencoded; charset=UTF-8"},
 		 method: 'POST',
@@ -89,15 +90,12 @@ pageChange=(e)=>{
 		this.setState({
 			loading: false,
 			data:  data.data.list,
-			total: data.data.rowAll
+			total: data.data.rowAll,
 		});
 	});
  }
- test_123 = (params = {
-	 pageNow: this.state.current,
-	 pageNum: this.state.pagesize
- 	}) => {
-	let data = "pageNow="+this.state.current+"&pageNum="+this.state.pagesize
+ test_123 = (data = {}) => {
+	 	data = "pageNow="+this.state.current+"&pageNum="+this.state.pagesize
 		const req = request('http://localhost:3001/cas/v1/mobile/user/logout?token=a213asdfb', {
 		headers: { "Content-type": "application/x-www-form-urlencoded; charset=UTF-8"},
 	    method: 'POST',
@@ -107,26 +105,35 @@ pageChange=(e)=>{
 			console.log(resp.data);
 		}, (err)=>{console.log("failed!!!!")});
 	}
+
 	componentDidMount() {
 		//  this.post_test();
 		 this.test_123();
  }
+ // shouldComponentUpdate() {
+ //  console.log("组件已更新")
+ //  this.test_123();
+ // }
 render(){
 	return(<div>
-		 <Table
+			<Search
+			field={Columns} ref="SearchComponent"
+		 	data={this.state.search_data}
+			onchange={this.SearchChange()}/>
+
+		 	<Table
 			 rowSelection={rowSelection}
 			 columns={Columns}
 			 dataSource={this.state.data}
 			 loading={this.state.loading}
-			 pagination={false}
-			/>
-		<Pagination
-		showQuickJumper
-		total={this.state.total}
-		current={this.state.current}
-		pagesize={this.state.pagesize}
-		onChange={this.pageChange}
-/>
+			 pagination={false}/>
+
+			<Pagination
+			showQuickJumper
+			total={this.state.total}
+			current={this.state.current}
+			pagesize={this.state.pagesize}
+			onChange={this.pageChange}/>
 		</div>
 	)
 }

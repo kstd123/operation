@@ -70,18 +70,18 @@ class Headers extends React.Component{
 
 	        <SubMenu key="sub1" title={<span><Icon type="team" style={{margin:"0 30px 0 0 "}}/><span>公司</span></span>}>
 	            <Menu.Item key="3"><Link to="/users">菜单一1</Link></Menu.Item>
-	            <Menu.Item key="4"><Link to="/index">菜单一2</Link></Menu.Item>
+	            <Menu.Item key="4"><Link to="/Company">授权管理</Link></Menu.Item>
 	        </SubMenu>
-	        <SubMenu key="sub2" title={<span><Icon type="appstore" style={{margin:"0 30px 0 0 "}}/><span>参数</span></span>}>
-	          <Menu.Item key="5"><Link to="/Email">email</Link></Menu.Item>
-	          <Menu.Item key="6"><Link to="/Sms">短信</Link></Menu.Item>
-						<Menu.Item key="7"><Link to="/Url">URL回调</Link></Menu.Item>
-						<Menu.Item key="8"><Link to="/Web">Webservice回调</Link></Menu.Item>
-						<Menu.Item key="9"><Link to="/Wechat">微信</Link></Menu.Item>
-	        </SubMenu>
-	        <SubMenu key="sub3" title={<span><Icon type="mail" style={{margin:"0 30px 0 0 "}}/><span>消息</span></span>}>
-	          <Menu.Item key="10">菜单三1</Menu.Item>
-	          <Menu.Item key="11">菜单三2</Menu.Item>
+					<SubMenu key="sub3" title={<span><Icon type="mail" style={{margin:"0 30px 0 0 "}}/><span>参数</span></span>}>
+						<Menu.Item key="5"><Link to="/Math">参数列表</Link></Menu.Item>
+						<Menu.Item key="6">菜单三2</Menu.Item>
+					</SubMenu>
+	        <SubMenu key="sub2" title={<span><Icon type="appstore" style={{margin:"0 30px 0 0 "}}/><span>消息</span></span>}>
+	          <Menu.Item key="7"><Link to="/Email">email</Link></Menu.Item>
+	          <Menu.Item key="8"><Link to="/Sms">短信</Link></Menu.Item>
+						<Menu.Item key="9"><Link to="/Url">URL回调</Link></Menu.Item>
+						<Menu.Item key="10"><Link to="/Web">Webservice回调</Link></Menu.Item>
+						<Menu.Item key="11"><Link to="/Wechat">微信</Link></Menu.Item>
 	        </SubMenu>
 					<SubMenu key="sub4" title={<span><Icon type="area-chart" style={{margin:"0 30px 0 0 "}}/><span>报表</span></span>}>
 					 <Menu.Item key="12"><Link to="">菜单四1</Link></Menu.Item>

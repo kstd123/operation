@@ -1,25 +1,23 @@
 import { Table, Icon,Pagination } from 'antd';
 import React from 'react';
 import { connect } from 'dva';
-// import reqwest from 'reqwest';
 import request from '../../utils/request';
+import Search from '../Search'
 
-// const { Column, ColumnGroup } = Table;
-// import data from './data.js';
 
 const Columns = [
         {
 			title:"发票请求流水号",
 			dataIndex:"fpqqlsh",
-			key:"fpqqlsh"
+			key:"conditionFpqqlsh"
 		},{
 			title:"接收地址",
 			dataIndex:"address",
-			key:"address"
+			key:"conditionAddress"
 		},{
 			title:"结果",
 			dataIndex: "result",
-			key:"result"
+			key:"conditionResult"
 		},{
 		 title:"Action",
 		 key:"action",
@@ -75,19 +73,19 @@ class Sms extends React.Component{
         pageNow: this.state.current,
         pageNum: this.state.pagesize
         }) => {
-            let data = "pageNow="+this.state.current+"&pageNum="+this.state.pagesize
+            let data = "pageNow="+this.state.current+"&pageNum="+this.state.pagesize+"&conditionFpqqlsh=12345678901234567890"
 
-        	const req = request('http://localhost:3001/cas/v1/mobile/user/logout?token=a213asdfb', {
-        	headers: { "Content-type": "application/x-www-form-urlencoded; charset=UTF-8"},
+        	// const req = request('http://localhost:3001/cas/v1/mobile/user/logout?token=a213asdfb', {
+        	// headers: { "Content-type": "application/x-www-form-urlencoded; charset=UTF-8"},
+          //   method: 'POST',
+          //   body:	data ,
+          // })
+
+        const req = request( 'http://localhost:8080/sms/select/all', {
+            headers: { "Content-type": "application/x-www-form-urlencoded; charset=UTF-8"},
             method: 'POST',
-            body:	data ,
-          })
-
-        // const req = request( 'http://localhost:8080/sms/select/all', {
-        //     headers: { "Content-type": "application/x-www-form-urlencoded; charset=UTF-8"},
-        //     method: 'POST',
-        //     body: data,
-        // })
+            body: data,
+        })
         .then((data) => {
             console.log(data.data)
             this.setState({
@@ -96,7 +94,7 @@ class Sms extends React.Component{
                 total: data.data.rowAll
             });
         });
-     }  
+     }
 
 	componentDidMount() {
 		 this.post_test();
@@ -104,6 +102,7 @@ class Sms extends React.Component{
     }
 render(){
 	return(<div>
+		<Search field={Columns}/>
 		 <Table
 			 rowSelection={rowSelection}
 			 columns={Columns}

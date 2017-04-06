@@ -39,6 +39,24 @@ function RouterConfig({ history, app }) {
         });
       },
     },
+			{
+			path: '/Company',
+			name: 'chartPage',
+			getComponent(nextState, cb) {
+				require.ensure([], (require) => {
+					cb(null, require('./routes/Company'));
+				});
+			},
+		},
+		{
+		path: '/Math',
+		name: 'mathPage',
+		getComponent(nextState, cb) {
+			require.ensure([], (require) => {
+				cb(null, require('./routes/Math'));
+			});
+		},
+	},
 		{
 			path: '/Email',
 			name: 'chartPage',

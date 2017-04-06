@@ -1,45 +1,10 @@
 import { Table, Icon,Pagination } from 'antd';
 import React from 'react';
 import { connect } from 'dva';
-// import reqwest from 'reqwest';
+import Search from '../Search'
 import request from '../../utils/request';
 
-// const { Column, ColumnGroup } = Table;
-// import data from './data.js';
 
-const Columns = [
-	 {
-		 title:"发票请求流水号",
-		 dataIndex:"fpqqlsh",
-		 key:"fpqqlsh"
-	 },{
-		 title:"接收地址",
-		 dataIndex:"address",
-		 key:"address"
-	 },{
-		 title:"结果",
-		 dataIndex: "result",
-		 key:"result",
-		 filters: [
-			 { text: '成功', value: '0' },
-			 { text: '失败', value: '1' },
-		 ]
-	 },{
-		 title:"Action",
-		 key:"action",
-		 render:(text, record) => (
-			 <span>
-				 <a href="#">Action 一 {record.name}</a>
-				 <span className="ant-divider" />
-				 <a href="#">Delete</a>
-				 <span className="ant-divider" />
-				 <a href="#" className="ant-dropdown-link">
-					 More actions <Icon type="down" />
-				 </a>
-			 </span>
-		 )
-	 }
- ]
 const rowSelection = {
 	 onChange: (selectedRowKeys, selectedRows) => {
 		 console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
@@ -58,35 +23,35 @@ const columns = [
 	{
 			title:"发票请求流水号",
 			dataIndex:"fpqqlsh",
-			key:"fpqqlsh"
+			key:"conditionFpqqlsh"
 		},{
 			title:"回调URL",
 			dataIndex:"url",
-			key:"url"
+			key:"conditionUrl"
 		},{
 			title:"微信订单号",
 			dataIndex:"wxorderid",
-			key:"wxorderid"
+			key:"conditionWxorderid"
 		},
 		{
 			title:"微信",
 			dataIndex:"wxappid",
-			key:"wxappid"
+			key:"conditionWxappid"
 		},
 		{
 			title:"小程序推送用户id",
 			dataIndex:"wxopenid",
-			key:"wxopenid"
+			key:"conditionWxopenid"
 		},
 		{
 			title:"小程序表单id",
 			dataIndex:"wxformid",
-			key:"wxformid"
+			key:"conditionWxformid"
 		},
 		{
 			title:"结果",
 			dataIndex:"result",
-			key:"result"
+			key:"conditionResult"
 		}
 ];
 class Wechat extends React.Component{
@@ -94,8 +59,8 @@ class Wechat extends React.Component{
 	state = {
 		data: [],
 		pagination: {},
-		loading: false,
-		current: 2,
+		loading: true,
+		current: 1,
 		pagesize: 6,
 		total:99
 	};
@@ -119,24 +84,29 @@ pageChange=(e)=>{
         	headers: { "Content-type": "application/x-www-form-urlencoded; charset=UTF-8"},
             method: 'POST',
             body:	data ,
-          }).then((data) =>{console.log(data)})
+          })
 
-	//  const req = request( 'http://localhost:8080/email/select/all', {
+	//  const req = request( 'http://localhost:8080/wechat/select/all', {
 	// 	 headers: { "Content-type": "application/x-www-form-urlencoded; charset=UTF-8"},
 	// 	 method: 'POST',
 	// 	 body: data,
-	//  }).then((data) => {
-	// 	console.log(data.data)
-	// 	this.setState({
-	// 		loading: false,
-	// 		data:  data.data.list,
-	// 		total: data.data.rowAll
-	// 	});
-	// });
+	//  })
+	 .then((data) => {
+		console.log(data.data)
+		this.setState({
+			loading: false,
+			data:  data.data.list,
+			total: data.data.rowAll
+		});
+	});
  }
+componentDidMount() {
+  this.post_test();
+}
 
 render(){
 	return(<div>
+		<Search field={columns}/>
 		 <Table
 			 rowSelection={rowSelection}
 			 columns={columns}

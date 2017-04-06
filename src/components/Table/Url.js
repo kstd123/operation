@@ -1,25 +1,21 @@
 import { Table, Icon,Pagination } from 'antd';
 import React from 'react';
 import { connect } from 'dva';
-// import reqwest from 'reqwest';
 import request from '../../utils/request';
-
-// const { Column, ColumnGroup } = Table;
-// import data from './data.js';
-
+import Search from '../Search'
 const Columns = [
    {
 			title:"发票请求流水号",
 			dataIndex:"fpqqlsh",
-			key:"fpqqlsh"
+			key:"conditionFpqqlsh"
 		},{
 			title:"回调URL",
 			dataIndex:"url",
-			key:"url"
+			key:"conditionUrl"
 		},{
 			title:"结果",
 			dataIndex: "result",
-			key:"result"
+			key:"conditionResult"
 		}
  ]
 const rowSelection = {
@@ -63,24 +59,24 @@ class Url extends React.Component{
  	}) => {
 	let data = "pageNow="+this.state.current+"&pageNum="+this.state.pagesize
 
-		const req = request('http://localhost:3001/cas/v1/mobile/user/logout?token=a213asdfb', {
-        	headers: { "Content-type": "application/x-www-form-urlencoded; charset=UTF-8"},
-            method: 'POST',
-            body:	data ,
-          }).then((data) =>{console.log(data)})
+		// const req = request('http://localhost:3001/cas/v1/mobile/user/logout?token=a213asdfb', {
+        	// headers: { "Content-type": "application/x-www-form-urlencoded; charset=UTF-8"},
+         //    method: 'POST',
+         //    body:	data ,
+         //  }).then((data) =>{console.log(data)})
 
-	//  const req = request( 'http://localhost:8080/email/select/all', {
-	// 	 headers: { "Content-type": "application/x-www-form-urlencoded; charset=UTF-8"},
-	// 	 method: 'POST',
-	// 	 body: data,
-	//  }).then((data) => {
-	// 	console.log(data.data)
-	// 	this.setState({
-	// 		loading: false,
-	// 		data:  data.data.list,
-	// 		total: data.data.rowAll
-	// 	});
-	// });
+	 const req = request( 'http://localhost:8080/callback/select/all/url', {
+		 headers: { "Content-type": "application/x-www-form-urlencoded; charset=UTF-8"},
+		 method: 'POST',
+		 body: data,
+	 }).then((data) => {
+		console.log(data.data)
+		this.setState({
+			loading: false,
+			data:  data.data.list,
+			total: data.data.rowAll
+		});
+	});
  }
 
 
@@ -90,6 +86,7 @@ class Url extends React.Component{
     }
 render(){
 	return(<div>
+		<Search field={Columns}/>
 		 <Table
 			 rowSelection={rowSelection}
 			 columns={Columns}
