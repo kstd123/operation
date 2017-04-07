@@ -5,7 +5,6 @@ import MainLayout from '../components/MainLayout/MainLayout';
 function Table() {
 	return(
 		<MainLayout>
-
 			<TableComponent/>
 		</MainLayout>
 	)

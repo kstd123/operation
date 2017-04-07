@@ -48,8 +48,8 @@ function RouterConfig({ history, app }) {
 				});
 			},
 		},{
-		path: '/upload',
-		name: 'chartPage',
+		path: '/Upload',
+		name: 'UploadPage',
 		getComponent(nextState, cb) {
 			require.ensure([], (require) => {
 				cb(null, require('./routes/CompanyUpload'));

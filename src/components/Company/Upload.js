@@ -171,7 +171,5 @@ class Demo extends React.Component {
     );
   }
 }
-
 const WrappedDemo = Form.create()(Demo);
-
-ReactDOM.render(<WrappedDemo />, mountNode);
+export default WrappedDemo;
