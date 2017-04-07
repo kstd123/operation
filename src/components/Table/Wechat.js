@@ -106,7 +106,7 @@ componentDidMount() {
 
 render(){
 	return(<div>
-		<Search field={columns}/>
+		<Search field={columns} />
 		 <Table
 			 rowSelection={rowSelection}
 			 columns={columns}

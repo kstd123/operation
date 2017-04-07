@@ -1,8 +1,10 @@
-import { Table, Icon,Pagination } from 'antd';
+import { Table, Icon,Pagination, Button, Form, Row, Col, Input } from 'antd';
 import React from 'react';
+const FormItem = Form.Item;
 import { connect } from 'dva';
 import request from '../../utils/request';
-
+import Mathmodal from './Mathmodal';
+import MathSearch from './MathSearch';
 const Columns = [
 	 {
 		 title:"编号",
@@ -13,7 +15,7 @@ const Columns = [
 		 dataIndex:"code",
 		 key:"code"
 	 },{
-		 title:"名称",
+		 title:"参数名称",
 		 dataIndex: "name",
 		 key:"name",
 	 },{
@@ -37,6 +39,10 @@ const Columns = [
 		 dataIndex: "valueclass",
 		 key:"valueclass",
 	 },{
+		 title: "公司名称",
+		 dataIndex: "corpname",
+		 key:"corpname"
+	 },{
 		 title:"创建时间",
 		 dataIndex: "createtime",
 		 key:"createtime",
@@ -44,7 +50,15 @@ const Columns = [
 		 title:"名称",
 		 dataIndex: "ts",
 		 key:"ts",
-	 },
+	 },  {
+       title: 'Operation',
+       key: 'operation',
+       render: (text, record) => (
+           <Mathmodal record={record} Columns={Columns} >
+             <a>修改</a>
+           </Mathmodal>
+       ),
+     },
  ]
 class Tables extends React.Component{
 
@@ -65,10 +79,19 @@ class Tables extends React.Component{
 				}
 			)
 	}
-
+	createHandler=()=>{
+		this.post_test()
+		console("createHandel!!!!!!!!!")
+	}
+	transferMsg(msg) {//子组件状态
+		(msg===void(0)||msg===this.state.data)?console.log("子组件状态为"+msg):this.setState({
+	      data:msg
+	    },()=>{console.log("父组件更新为"+msg)})
+			console.log("组件更新")
+  }
  post_test = (data = "") => {
 	 data = "pageNow="+this.state.current+"&pageNum="+this.state.pagesize
-	this.setState({ search_data: data })
+	this.setState({ search_data: data,loading:true })
 	 const req = request( 'http://localhost:8080/parameter/selectAll', {
 		 headers: { "Content-type": "application/x-www-form-urlencoded; charset=UTF-8"},
 		 method: 'POST',
@@ -88,19 +111,25 @@ class Tables extends React.Component{
  }
 
 	render(){
-		return(<div>
-					 	<Table
-						 columns={Columns}
-						 dataSource={this.state.data}
-						 loading={this.state.loading}
-						 pagination={false}/>
+		return(
+			<div>
 
-						<Pagination
-						showQuickJumper
-						total={this.state.total}
-						current={this.state.current}
-						pagesize={this.state.pagesize}
-						onChange={this.pageChange}/>
+			<MathSearch field={Columns} foo={ msg=>this.transferMsg(msg) }/>
+				<Mathmodal record={{}} onOk={this.createHandler}>
+					<Button type="primary">修改参数</Button>
+				</Mathmodal>
+			 	<Table
+				 columns={Columns}
+				 dataSource={this.state.data}
+				 loading={this.state.loading}
+				 pagination={false}/>
+
+				<Pagination
+				showQuickJumper
+				total={this.state.total}
+				current={this.state.current}
+				pagesize={this.state.pagesize}
+				onChange={this.pageChange}/>
 			</div>
 		)
 	}

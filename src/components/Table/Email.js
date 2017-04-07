@@ -73,9 +73,8 @@ class Tables extends React.Component{
 			)
 	}
 	SearchChange=(e)=>{
-		let self = this;
-		console.log(e);
-		// console.log(self.refs.SearchComponent.state)
+		console.log(e+"子组件更新");
+		// console.log(this.refs.SearchComponent.state)
 		// (this.refs.SearchComponent.state.data === []) ? console.log("未更新") :this.setState({ current:1,pagesize:6,data:this.refs.SearchComponent.state.data })
 	}
  post_test = (data = "") => {
@@ -105,21 +104,26 @@ class Tables extends React.Component{
 			console.log(resp.data);
 		}, (err)=>{console.log("failed!!!!")});
 	}
-
+	foo=()=>{
+				// console.log(this.refs.SearchComponent.state+"------------------")
+				console.log("失败饿了")
+	}
+	componentWillMount() {
+		this.foo()
+	}
 	componentDidMount() {
-		//  this.post_test();
+
 		 this.test_123();
  }
- // shouldComponentUpdate() {
- //  console.log("组件已更新")
- //  this.test_123();
- // }
+// componentWillReceiveProps() {
+//
+// }
 render(){
 	return(<div>
 			<Search
 			field={Columns} ref="SearchComponent"
 		 	data={this.state.search_data}
-			onchange={this.SearchChange()}/>
+			onChange={this.SearchChange()}/>
 
 		 	<Table
 			 rowSelection={rowSelection}

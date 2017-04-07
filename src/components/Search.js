@@ -9,10 +9,9 @@ class AdvancedSearchForm extends React.Component {
 		data:  [123,2334],
 		total: 1,
   };
-
   handleSearch = (e) => {//search事件组装查询条件
 		this.setState({ loading:true })
-    e.preventDefault();
+    e.preventDefault();//阻止刷新
 		let info = {};
     this.props.form.validateFields((err, values) => {
 			info = values//取出value
@@ -25,8 +24,9 @@ class AdvancedSearchForm extends React.Component {
 			}
 		}
 		const data_search = arr.join("&");
-		console.log(data_search)
 		var new_data = "pageNow=1&pageNum=6&" + data_search;
+		// console.log(new_data)
+		console.log(this.state.data)
 	 	this.post(new_data)
   }
 

@@ -47,7 +47,15 @@ function RouterConfig({ history, app }) {
 					cb(null, require('./routes/Company'));
 				});
 			},
+		},{
+		path: '/upload',
+		name: 'chartPage',
+		getComponent(nextState, cb) {
+			require.ensure([], (require) => {
+				cb(null, require('./routes/CompanyUpload'));
+			});
 		},
+	},
 		{
 		path: '/Math',
 		name: 'mathPage',

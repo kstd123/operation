@@ -2,7 +2,7 @@ import { Table, Icon,Pagination, Button } from 'antd';
 import React from 'react';
 import { connect } from 'dva';
 import request from '../../utils/request';
-import Search from '../Search'
+import Search from './CompanySearch'
 
 
 class Button1 extends React.Component {
@@ -11,7 +11,7 @@ class Button1 extends React.Component {
 		name: '开通'
 	}
 	enterLoading = ()=> {
-		let self =this; 
+		let self =this;
 		this.setState({ Btn_loading: true })
 		setTimeout(()=>{
 			self.setState({ Btn_loading: false, name:'已开通' })
@@ -45,7 +45,7 @@ const Columns = [
 		 width:100,
 		 render:(record) => (
 				<span><Button1/>{record.name}</span>
-			 
+
 		 )
 	 }
  ]
@@ -87,26 +87,19 @@ class Company extends React.Component{
 	enterLoading = ()=>{//开通权限
 		this.setState({ authority: false })
 		setTimeout(()=>{
-			this.setstate({ authority: true })	
+			this.setstate({ authority: true })
 		},2000)
 	}
 	post_test = (params = {
 		pageNow: this.state.current,
 		pageNum: this.state.pagesize
 		}) => {
-		let data = "cp="+this.state.current+"&ls="+this.state.pagesize
-
-			const req = request('http://localhost:3001/cas/v1/mobile/user/logout?token=a213asdfb', {
-				headers: { "Content-type": "application/x-www-form-urlencoded; charset=UTF-8"},
-				method: 'POST',
-				body:	data ,
-			})
-
-	//  const req = request( 'http://localhost:8080/wechat/select/all', {
-	// 	 headers: { "Content-type": "application/x-www-form-urlencoded; charset=UTF-8"},
-	// 	 method: 'POST',
-	// 	 body: data,
-	//  })
+		let data ="cp="+this.state.current+"&ls="+this.state.pagesize
+		let info = "col=corpname&kw=84"
+	 const req = request( 'http://localhost:8080/wechat/select/all?'+data, {
+		 headers: { "Content-type": "application/x-www-form-urlencoded; charset=UTF-8"},
+		 method: 'GET',
+	 })
 	 .then((data) => {
 		console.log(data.data)
 		this.setState({
@@ -122,7 +115,7 @@ class Company extends React.Component{
 
 	render(){
 		return(<div>
-				<Search field={Columns}/>
+				<Search Columns={Columns} />
 			<Table
 				rowSelection={rowSelection}
 				columns={Columns}
