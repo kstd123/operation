@@ -106,7 +106,9 @@ componentDidMount() {
 
 render(){
 	return(<div>
-		<Search field={columns} />
+		<Search
+		field={columns}
+		foo={msg=>this.search_post(msg)}/>
 		 <Table
 			 rowSelection={rowSelection}
 			 columns={columns}

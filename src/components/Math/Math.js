@@ -55,7 +55,7 @@ const Columns = [
        key: 'operation',
        render: (text, record) => (
            <Mathmodal record={record} Columns={Columns} >
-             <a>修改</a>
+            <Button type="primary">修改</Button>
            </Mathmodal>
        ),
      },
@@ -81,18 +81,22 @@ class Tables extends React.Component{
 	}
 	createHandler=()=>{
 		this.post_test()
-		console("createHandel!!!!!!!!!")
+		console.log("createHandel!!!!!!!!!")
 	}
 	transferMsg(msg) {//子组件状态
-		(msg===void(0)||msg===this.state.data)?console.log("子组件状态为"+msg):this.setState({
+		this.setState({
 	      data:msg
-	    },()=>{console.log("父组件更新为"+msg)})
-			console.log("组件更新")
+	    })
+			console.log("search连接成功")
   }
+	modalpost(msg1) {
+		this.setState({data:msg})
+		cosole.log("modal链接成功")
+	}
  post_test = (data = "") => {
 	 data = "pageNow="+this.state.current+"&pageNum="+this.state.pagesize
 	this.setState({ search_data: data,loading:true })
-	 const req = request( 'http://localhost:8080/parameter/selectAll', {
+	 const req = request( 'http://localhost:3001/cas/v1/user/admin/password_failed/sendresetByMobile', {
 		 headers: { "Content-type": "application/x-www-form-urlencoded; charset=UTF-8"},
 		 method: 'POST',
 		 body: data,
@@ -113,17 +117,15 @@ class Tables extends React.Component{
 	render(){
 		return(
 			<div>
-
-			<MathSearch field={Columns} foo={ msg=>this.transferMsg(msg) }/>
-				<Mathmodal record={{}} onOk={this.createHandler}>
-					<Button type="primary">修改参数</Button>
+				<MathSearch field={Columns} foo={ msg1=>this.transferMsg(msg1) }/>
+				<Mathmodal record={{}} onOk={this.createHandler} foo={ msg=>this.modalpost(msg) }>
+					<Button type="primary">新增参数</Button>
 				</Mathmodal>
 			 	<Table
 				 columns={Columns}
 				 dataSource={this.state.data}
 				 loading={this.state.loading}
 				 pagination={false}/>
-
 				<Pagination
 				showQuickJumper
 				total={this.state.total}

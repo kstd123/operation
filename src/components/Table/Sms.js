@@ -60,15 +60,19 @@ class Sms extends React.Component{
 		total:99
 	};
 
-    pageChange=(e)=>{
-                this.setState({
-                    current: e
-                }, ()=>{
-                        this.post_test();
-                    }
-                )
-    }
-
+  pageChange=(e)=>{
+    this.setState({
+        current: e
+    }, ()=>{
+            this.post_test();
+        }
+    )
+  }
+	search_post(msg){
+		this.setState({data:msg})
+		console.log(msg)
+		console.log('search连接成功')
+	}
      post_test = (params = {
         pageNow: this.state.current,
         pageNum: this.state.pagesize
@@ -102,7 +106,9 @@ class Sms extends React.Component{
     }
 render(){
 	return(<div>
-		<Search field={Columns}/>
+		<Search
+		field={Columns}
+		foo={msg=>this.search_post(msg)}/>
 		 <Table
 			 rowSelection={rowSelection}
 			 columns={Columns}

@@ -4,6 +4,7 @@ import { connect } from 'dva';
 import request from '../../utils/request';
 import Search from './CompanySearch'
 
+
 class Button1 extends React.Component {
 	state = {
 		Btn_loading:false,
@@ -25,7 +26,7 @@ class Button1 extends React.Component {
 const Columns = [
 	 { title:"公司名称",dataIndex:"corpname",key:"corpname",width:230, fixed:'left'},
 	 { title:"名称",dataIndex:"corpcode",key:"corpcode"},
-	 { title:"联系人",dataIndex:"contact",key:"contact"},
+	 { title:"公司名称",dataIndex:"contact",key:"contact"},
 	 { title:"公司地址",dataIndex:"corpaddress",key:"corpaddress"},
 	 { title:"公司电话",dataIndex:"corpphone",key:"corpphone"},
 	 { title:"公司邮箱",dataIndex:"corpemail",key:"corpemail"},
@@ -36,7 +37,19 @@ const Columns = [
 	 { title:"公司类型",dataIndex:"corptype",key:"corptype"},
 	 { title:"数据源",dataIndex:"datasource",key:"datasource"},
 	 { title:"时间",dataIndex:"ts",key:"ts"},
-	 { title:"权限",dataIndex:"btrail",key:"btrail"}
+	 { title:"权限",dataIndex:"btrail",key:"btrail"},
+	{
+		 title:"操作",
+		 key:"action",
+		 fixed:'right',
+		 width:100,
+		 render:(record) => (
+			 	<div>
+					<span><Button1/>{record.name}</span>
+					<Button type="primary">授权</Button>
+				</div>
+		 )
+	 }
  ]
 const rowSelection = {
 	 onChange: (selectedRowKeys, selectedRows) => {
@@ -79,8 +92,8 @@ class Company extends React.Component{
 			this.setstate({ authority: true })
 		},2000)
 	}
-	searchpost(msg,all) {
-		this.setState({ data:msg,total:all })
+	searchpost(msg) {
+		this.setState({ data:msg })
 		console.log("search连接成功")
 	}
 	post_test = (params = {
@@ -95,9 +108,6 @@ class Company extends React.Component{
 	 })
 	 .then((data) => {
 		console.log(data.data)
-		for(let i in data.data.allCompanys){
-			data.data.allCompanys[i].btrail=='Y'?data.data.allCompanys[i].btrail="已开通" : data.data.allCompanys[i].btrail="未开通"
-		}
 		this.setState({
 			loading: false,
 			data:  data.data.allCompanys,
@@ -111,7 +121,7 @@ class Company extends React.Component{
 
 	render(){
 		return(<div>
-				<Search Columns={Columns} foo={(msg,all)=>this.Searchpost(msg,all)}/>
+				<Search Columns={Columns} foo={msg=>this.Searchpost(msg)}/>
 			<Table
 				rowSelection={rowSelection}
 				columns={Columns}

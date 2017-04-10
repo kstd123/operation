@@ -54,11 +54,9 @@ class Headers extends React.Component{
           collapsible
           collapsed={this.state.collapsed}
           onCollapse={this.onCollapse}
-
 					style={{width:"15px"}}
         >
           <div className="logo" />
-
 	      <Menu onClick={this.handleClick}
 					style={{margin:'63px 0 0 0'}}
 	        defaultOpenKeys={['sub1']}
@@ -67,8 +65,8 @@ class Headers extends React.Component{
 					theme="dark"
 	      >
 	        <SubMenu key="sub1" title={<span><Icon type="team" style={{margin:"0 30px 0 0 "}}/><span>公司</span></span>}>
-	            <Menu.Item key="1"><Link to="/users">公司管理</Link></Menu.Item>
-	            <Menu.Item key="2"><Link to="/Company">授权管理</Link></Menu.Item>
+	            <Menu.Item key="1"><Link to="/Company">公司管理</Link></Menu.Item>
+	            <Menu.Item key="2"><Link to="/Authority">授权管理</Link></Menu.Item>
 							<Menu.Item key="3"><Link to="/Upload">证书上传</Link></Menu.Item>
 	        </SubMenu>
 					<SubMenu key="sub3" title={<span><Icon type="mail" style={{margin:"0 30px 0 0 "}}/><span>参数</span></span>}>

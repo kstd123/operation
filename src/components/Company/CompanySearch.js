@@ -2,46 +2,46 @@ import { Form, Row, Col, Input, Button, Icon,Select } from 'antd';
 import React from 'react';
 const FormItem = Form.Item;
 import request from '../../utils/request';
+const Arr=['corpname','corpcode','contact','corpaddress','corpphone','corpemail']
+let key = '';
 class MathSearch extends React.Component {
 	state ={
 		current: 1,
 		pagesize: 6,
-		data:[]
+		loading:false,
+		// key:"xxx",
 	}
 	handleSearch = (e) => {//search事件组装查询条件
 		this.setState({ loading:true })
 		e.preventDefault();
-		let info = {};
-		console.log(e)
-		this.props.form.validateFields((err,values) => {
-			info = values//取出value
+		let value = {};
+		this.props.form.validateFields((err,info) => {
+			value = info.name//取出value{name:"123"}
 		});
-		const arr =[]
-		for(let i in info){
-			if(info[i]===void(0)){}
-			else {
-				arr.push(i+"="+info[i])
-			}
-		}
-		const data_search = arr.join("&");
-		var new_data = "pageNow=1&pageNum=6&" + data_search;
+		// let key = this.state.key
+		var new_data = "?ls=1&cp=6&col="+Arr[key]+"&kw="+value;
+		console.log(this.state.key)
+		console.log(new_data)
 		this.fetch(new_data)
-		console.log(this.state.data)
-		this.props.foo(this.state.data)
 	}
 	handleReset = () => {//重置
 		this.props.form.resetFields();
+		key=''
 	}
-	fetch = (data = "") => {
-		const req = request( 'http://localhost:8080/parameter/selectByCondition', {
+	select_handleChange(e) {
+		console.log(e)
+		key=e
+	}
+	fetch = (data = "&col='coprame'&kw='湖南'") => {
+		const req = request( 'http://localhost:8080/company/list'+ data, {
 			headers: { "Content-type": "application/x-www-form-urlencoded; charset=UTF-8"},
 			method: 'GET',
 		}).then((data) => {
 		 this.setState({
 			 loading: false,
-			 data:  data.data.list,
 			 total: data.data.rowAll,
 		 });
+		 this.props.foo(data.data.allCompanys,data.data.allRecorders)
 	 });
 	}
 	render() {
@@ -55,7 +55,7 @@ class MathSearch extends React.Component {
 				 title:"查询值",
 				 key:"name",
 	 		}];
-		for (let i = 0; i < field.length; i++) {
+		for (let i = 0; i < field.length  ; i++) {
 			children.push(
 				<Col span={8} key={i}>
 					<FormItem {...formItemLayout} label={field[i].title}>
@@ -68,12 +68,13 @@ class MathSearch extends React.Component {
 		}
 		const title_arr =[]
 		let temp = this.props.Columns;
-		console.log(temp[5].title)
 		for (let i in temp){
 			title_arr.push(
 				<Option value={i}>{temp[i].title}</Option>
 			)
 		}
+		// console.log(title_arr.length-3)
+		title_arr.length = title_arr.length-8
 		return(
 			<Form
 				className="ant-advanced-search-form"
@@ -82,15 +83,15 @@ class MathSearch extends React.Component {
 				<Row>
 					<Col span={4}></Col>
 					<Col span={3}>
-					<Select placeholder="Select a option and change input text above">
+					<Select placeholder="查询条件"allowClear onChange={this.select_handleChange}>
 							{title_arr}
 						</Select>
 					</Col>
 						{children}
 					<Col span={5} style={{ textAlign: 'right' }}>
-						<Button type="primary" htmlType="submit">Search</Button>
+						<Button type="primary" htmlType="submit">搜素</Button>
 						<Button style={{ marginLeft: 8 }} onClick={this.handleReset}>
-							Clear
+							清空
 						</Button>
 					</Col>
 				</Row>

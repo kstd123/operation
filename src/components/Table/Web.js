@@ -126,7 +126,9 @@ post_test = (params = {
 
 render(){
 	return(<div>
-		<Search field={Columns}/>
+		<Search
+		field={Columns}
+		foo={msg=>this.search_post(msg)}/>
 		 <Table
 			 rowSelection={rowSelection}
 			 columns={Columns}

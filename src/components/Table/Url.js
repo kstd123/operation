@@ -78,15 +78,15 @@ class Url extends React.Component{
 		});
 	});
  }
-
-
 	componentDidMount() {
 		 this.post_test();
          console.log(this.state.total)
     }
 render(){
 	return(<div>
-		<Search field={Columns}/>
+		<Search
+		field={Columns}
+		foo={msg=>this.search_post(msg)}/>
 		 <Table
 			 rowSelection={rowSelection}
 			 columns={Columns}

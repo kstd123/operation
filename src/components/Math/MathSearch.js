@@ -16,33 +16,40 @@ class MathSearch extends React.Component {
 		this.props.form.validateFields((err,values) => {
 			info = values//取出value
 		});
-		const arr =[]
+		let arr =[]
 		for(let i in info){
 			if(info[i]===void(0)){}
 			else {
 				arr.push(i+"="+info[i])
 			}
 		}
-		const data_search = arr.join("&");
-		var new_data = "pageNow=1&pageNum=6&" + data_search;
-		this.post_test(new_data)
-		console.log(this.state.data)
-		this.props.foo(this.state.data)
+		if(arr.length==0){
+			console.log('查询条件为空')
+		}else{
+			let data_search = arr.join("&");
+			var new_data = "pageNow=1&pageNum=6&" + data_search;
+			this.post_test(new_data)//异步请求
+			arr.length=0;
+			console.log(arr)
+		}
+
 	}
 	handleReset = () => {//重置
 		this.props.form.resetFields();
 	}
 	post_test = (data = "") => {
-		const req = request( 'http://localhost:8080/parameter/selectByCondition', {
+		const req = request( 'http://localhost:3001/cas/v1/user/admin/password/sendresetByMobile', {
 			headers: { "Content-type": "application/x-www-form-urlencoded; charset=UTF-8"},
 			method: 'POST',
 			body: data,
 		}).then((data) => {
 		 this.setState({
 			 loading: false,
-			 data:  data.data.list,
-			 total: data.data.rowAll,
+			//  data:  data.data.list,
+			//  total: data.data.rowAll,
 		 });
+		 console.log(data.data.list)
+		 this.props.foo(data.data.list)
 	 });
 	}
 	render() {
@@ -78,9 +85,9 @@ class MathSearch extends React.Component {
 				<Row>
 			{children}
 					<Col span={8} style={{ textAlign: 'right' }}>
-						<Button type="primary" htmlType="submit">Search</Button>
+						<Button type="primary" htmlType="submit">搜索</Button>
 						<Button style={{ marginLeft: 8 }} onClick={this.handleReset}>
-							Clear
+							清空
 						</Button>
 					</Col>
 				</Row>

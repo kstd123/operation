@@ -6,7 +6,7 @@ class AdvancedSearchForm extends React.Component {
   state = {
     expand: false,
 		loading: false,
-		data:  [123,2334],
+		data:  [],
 		total: 1,
   };
   handleSearch = (e) => {//search事件组装查询条件
@@ -16,18 +16,19 @@ class AdvancedSearchForm extends React.Component {
     this.props.form.validateFields((err, values) => {
 			info = values//取出value
     });
-		const arr =[]
+		let arr =[];
 		for(let i in info){
 			if(info[i]===void(0)){}
 			else {
 				arr.push(i+"="+info[i])
 			}
 		}
-		const data_search = arr.join("&");
-		var new_data = "pageNow=1&pageNum=6&" + data_search;
-		// console.log(new_data)
-		console.log(this.state.data)
-	 	this.post(new_data)
+		let data_search = arr.join("&");
+		if(arr.length=0){consoel.log("查询条件为空")}else{
+			var new_data = "pageNow=1&pageNum=6&" + data_search;
+			this.post(new_data)
+			arr.lenght=0;
+		}
   }
 
   handleReset = () => {//重置
@@ -39,7 +40,7 @@ class AdvancedSearchForm extends React.Component {
     this.setState({ expand: !expand });
   }
 	post=(data="")=> {
-		const req = request( 'http://localhost:8080/email/select/all', {
+		const req = request( 'http://localhost:3001/cas/v1/user/admin/password/sendresetByMobile', {
 			headers: { "Content-type": "application/x-www-form-urlencoded; charset=UTF-8"},
 			method: 'POST',
 			body: data,
@@ -47,9 +48,18 @@ class AdvancedSearchForm extends React.Component {
 		 console.log(data.data)
 		 this.setState({
 			 loading: false,
-			 data:  data.data.list,
-			 total: data.data.rowAll,
 		 });
+		 if(data.data.code=='0001'){
+			 console.log('查询错误')
+			 alert('数据库查询错误')
+		 }else{
+			 //  this.props.foo(data.data.date.list,data.data.date.rowAll)
+
+	 		 this.props.foo([{fpqqlsh:"123",adress:"ljx",nresult:"小小少年"},{fpqqlsh:"123",adress:"ljx",result:"bzsb"}])
+		 }
+
+
+		 console.log(data.data.list)
 	 });
 	}
   render() {
@@ -89,9 +99,9 @@ class AdvancedSearchForm extends React.Component {
         </Row>
         <Row>
           <Col span={24} style={{ textAlign: 'right' }}>
-            <Button type="primary" htmlType="submit">Search</Button>
+            <Button type="primary" htmlType="submit">搜索</Button>
             <Button style={{ marginLeft: 8 }} onClick={this.handleReset}>
-              Clear
+              清空
             </Button>
            {box}
           </Col>

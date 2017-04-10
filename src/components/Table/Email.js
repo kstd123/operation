@@ -3,8 +3,6 @@ import React from 'react';
 import { connect } from 'dva';
 import request from '../../utils/request';
 import Search from '../Search'
-
-
 const Columns = [
 	 {
 		 title:"发票请求流水号",
@@ -22,20 +20,6 @@ const Columns = [
 			 { text: '成功', value: '0' },
 			 { text: '失败', value: '1' },
 		 ]
-	 },{
-		 title:"Action",
-		 key:"action",
-		 render:(text, record) => (
-			 <span>
-				 <a href="#">Action 一 {record.name}</a>
-				 <span className="ant-divider" />
-				 <a href="#">Delete</a>
-				 <span className="ant-divider" />
-				 <a href="#" className="ant-dropdown-link">
-					 More actions <Icon type="down" />
-				 </a>
-			 </span>
-		 )
 	 }
  ]
 const rowSelection = {
@@ -52,9 +36,7 @@ const rowSelection = {
 		 disabled: record.name === 'Disabled User',    // Column configuration not to be checked
 	 }),
  };
-
 class Tables extends React.Component{
-
 	state = {
 		data: [],
 		pagination: {},
@@ -68,19 +50,19 @@ class Tables extends React.Component{
 			this.setState({
 				current: e
 			}, ()=>{
-					this.test_123();
+					this.post_test();
 				}
 			)
 	}
-	SearchChange=(e)=>{
-		console.log(e+"子组件更新");
-		// console.log(this.refs.SearchComponent.state)
-		// (this.refs.SearchComponent.state.data === []) ? console.log("未更新") :this.setState({ current:1,pagesize:6,data:this.refs.SearchComponent.state.data })
+	search_post(msg,all){
+		this.setState({data:msg,total:all})
+		// console.log()
+		console.log('search连接成功')
 	}
  post_test = (data = "") => {
-	 data = "pageNow="+this.state.current+"&pageNum="+this.state.pagesize
+	 data = "pageNow="+this.state.current+"&pageNum="+this.state.pagesize ;
 	this.setState({ search_data: data })
-	 const req = request( 'http://localhost:8080/email/select/all', {
+	 const req = request( 'http://localhost:3001/cas/v1/email/select/all', {
 		 headers: { "Content-type": "application/x-www-form-urlencoded; charset=UTF-8"},
 		 method: 'POST',
 		 body: data,
@@ -88,43 +70,23 @@ class Tables extends React.Component{
 		console.log(data.data)
 		this.setState({
 			loading: false,
-			data:  data.data.list,
-			total: data.data.rowAll,
+			data:  data.data.date.list,
+			total: data.data.date.rowAll,
 		});
 	});
  }
- test_123 = (data = {}) => {
-	 	data = "pageNow="+this.state.current+"&pageNum="+this.state.pagesize
-		const req = request('http://localhost:3001/cas/v1/mobile/user/logout?token=a213asdfb', {
-		headers: { "Content-type": "application/x-www-form-urlencoded; charset=UTF-8"},
-	    method: 'POST',
-	    body:	data ,
-	  });
-		req.then((resp)=>{
-			console.log(resp.data);
-		}, (err)=>{console.log("failed!!!!")});
-	}
+
 	foo=()=>{
-				// console.log(this.refs.SearchComponent.state+"------------------")
-				console.log("失败饿了")
-	}
-	componentWillMount() {
-		this.foo()
+		console.log("失败饿了")
 	}
 	componentDidMount() {
-
-		 this.test_123();
+		 this.post_test();
  }
-// componentWillReceiveProps() {
-//
-// }
 render(){
 	return(<div>
 			<Search
-			field={Columns} ref="SearchComponent"
-		 	data={this.state.search_data}
-			onChange={this.SearchChange()}/>
-
+			field={Columns}
+			foo={(msg,all)=>this.search_post(msg,all)}/>
 		 	<Table
 			 rowSelection={rowSelection}
 			 columns={Columns}

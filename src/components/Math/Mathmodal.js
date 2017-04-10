@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { Modal, Form, Input } from 'antd';
-
+import request from '../../utils/request';
 const FormItem = Form.Item;
 
-class Mathmodal extends Component {
+class Mathmodal extends React.Component {
 
   constructor(props) {
     super(props);
@@ -29,12 +29,36 @@ class Mathmodal extends Component {
     const { onOk } = this.props;
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        onOk(values);
+        // onOk(values);
+				const arr = []
+				for(let i in values){
+					if(values[i]!=void(0))
+					 arr.push( i+"="+values[i] )
+				}
+				let data = arr.join("&");
+				data = "pageNow=1&pageNum6"+data
+				console.log(data)
+				this.fetch_add(data)
         this.hideModelHandler();
       }
     });
   };
-
+	fetch_add = (data = "") => {
+	 this.setState({ search_data: data,loading:true })
+		const req = request( 'http://localhost:3001/cas/v1/user/admin/password_failed/sendresetByMobile', {
+			headers: { "Content-type": "application/x-www-form-urlencoded; charset=UTF-8"},
+			method: 'POST',
+			body: data,
+		}).then((data) => {
+		 console.log(data.data)
+		 this.setState({
+			 loading: false,
+			//  data:  data.data.list,
+			//  total: data.data.rowAll,
+		 });
+		 this.props.foo(data.data.list)
+	 });
+	}
   render() {
     const { children } = this.props;
     const { getFieldDecorator } = this.props.form;
@@ -63,7 +87,7 @@ class Mathmodal extends Component {
               {
                 getFieldDecorator('id', {
                   initialValue: id,
-                })(<Input />)
+                })(<Input  disabled={true}/>)
               }
             </FormItem>
             <FormItem

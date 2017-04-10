@@ -44,15 +44,25 @@ function RouterConfig({ history, app }) {
 			name: 'chartPage',
 			getComponent(nextState, cb) {
 				require.ensure([], (require) => {
-					cb(null, require('./routes/Company'));
+					cb(null, require('./routes/Company/Company'));
 				});
 			},
-		},{
+		},
+		{
+			path: '/authority',
+			name: 'chartPage',
+			getComponent(nextState, cb) {
+				require.ensure([], (require) => {
+					cb(null, require('./routes/Company/Authority'));
+				});
+			},
+		},
+		{
 		path: '/Upload',
 		name: 'UploadPage',
 		getComponent(nextState, cb) {
 			require.ensure([], (require) => {
-				cb(null, require('./routes/CompanyUpload'));
+				cb(null, require('./routes/Company/CompanyUpload'));
 			});
 		},
 	},
