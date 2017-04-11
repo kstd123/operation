@@ -5,6 +5,8 @@ import { connect } from 'dva';
 import request from '../../utils/request';
 import Mathmodal from './Mathmodal';
 import MathSearch from './MathSearch';
+import Page from '../Page'
+
 const Columns = [
 	 {
 		 title:"编号",
@@ -43,18 +45,11 @@ const Columns = [
 		 dataIndex: "corpname",
 		 key:"corpname"
 	 },{
-		 title:"创建时间",
-		 dataIndex: "createtime",
-		 key:"createtime",
-	 },{
-		 title:"名称",
-		 dataIndex: "ts",
-		 key:"ts",
-	 },  {
-       title: 'Operation',
+       title: '操作',
        key: 'operation',
        render: (text, record) => (
-           <Mathmodal record={record} Columns={Columns} >
+           <Mathmodal record={record} Columns={Columns}
+					 foo2={ msg=>this.foo_modal(msg) } >
             <Button type="primary">修改</Button>
            </Mathmodal>
        ),
@@ -64,39 +59,43 @@ class Tables extends React.Component{
 
 	state = {
 		data: [],
-		pagination: {},
 		loading: false,
 		current: 1,
-		pagesize: 6,
-		total:99,
-		search_data:""
+		pagesize: 10,
+		total:18,
+		search_data:"",
+		search:'false'
 	};
-	pageChange=(e)=>{
-			this.setState({
-				current: e
-			}, ()=>{
-					this.test_123();
-				}
-			)
+
+	Pagination(msg) {
+		this.setState({ current:msg },()=>{this.page_check()})
+	}
+	Search(msg) {
+		this.setState({ search:'true',search_data: msg,current: 1 },()=>{this.page_check()})
+		console.log("search连接成功")
+	}
+	Search_clear() {
+		this.setState({current:1,search:'false'},()=>this.page_check())
 	}
 	createHandler=()=>{
-		this.post_test()
+		this.post()
 		console.log("createHandel!!!!!!!!!")
 	}
-	transferMsg(msg) {//子组件状态
-		this.setState({
-	      data:msg
-	    })
-			console.log("search连接成功")
-  }
-	modalpost(msg1) {
-		this.setState({data:msg})
-		cosole.log("modal链接成功")
+	page_check(){
+		if(this.state.search=='true'){
+			this.post_search()
+		}else{
+			this.post()
+		}
 	}
- post_test = (data = "") => {
+	foo_modal(msg){
+		this.post_modal(msg);
+		console.log("修改了"+msg)
+	}
+ post = (data = "") => {
 	 data = "pageNow="+this.state.current+"&pageNum="+this.state.pagesize
-	this.setState({ search_data: data,loading:true })
-	 const req = request( 'http://localhost:3001/cas/v1/user/admin/password_failed/sendresetByMobile', {
+	this.setState({ search_data: data,loading:false })
+	 const req = request( 'http://localhost:8088/parameter/selectByCondition', {
 		 headers: { "Content-type": "application/x-www-form-urlencoded; charset=UTF-8"},
 		 method: 'POST',
 		 body: data,
@@ -104,21 +103,54 @@ class Tables extends React.Component{
 		console.log(data.data)
 		this.setState({
 			loading: false,
-			data:  data.data.list,
-			total: data.data.rowAll,
+			data:  data.data.data.list,
+			total: data.data.data.rowAll,
 		});
 	});
  }
-
+ post_search = (data = "") => {
+	 data="pageNow="+this.state.current+"&pageNum="+this.state.pagesize +"&"+ this.state.search_data
+	 const req = request( 'http://localhost:3001/cas/v1/user/admin/password/sendresetByMobile', {
+		 headers: { "Content-type": "application/x-www-form-urlencoded; charset=UTF-8"},
+		 method: 'POST',
+		 body: data,
+	 }).then((data) => {
+		this.setState({
+			loading: false,
+		  data:  data.data.data.list,
+		  total: data.data.data.rowAll,
+		});
+		console.log(data.data.list)
+	});
+ }
+ post_modal = (data = "") => {
+	 data="pageNow="+this.state.current+"&pageNum="+this.state.pagesize +"&"+ data
+	 const req = request( 'http://localhost:3001/cas/v1/user/admin/password_failed/sendresetByMobile', {
+		 headers: { "Content-type": "application/x-www-form-urlencoded; charset=UTF-8"},
+		 method: 'POST',
+		 body: data,
+	 }).then((data) => {
+		console.log(data.data)
+		this.setState({
+		  data:  data.data.data.list,
+		  total: data.data.data.rowAll,
+		});
+	});
+ }
 	componentDidMount() {
-		 this.post_test();
+		 this.post();
  }
 
 	render(){
 		return(
 			<div>
-				<MathSearch field={Columns} foo={ msg1=>this.transferMsg(msg1) }/>
-				<Mathmodal record={{}} onOk={this.createHandler} foo={ msg=>this.modalpost(msg) }>
+				<MathSearch field={Columns}
+				foo={ msg=>this.Search(msg)}
+				foo1={()=>this.Search_clear()}
+				/>
+				<Mathmodal
+				record={{}}
+				foo2={ msg=>this.foo_modal(msg) }>
 					<Button type="primary">新增参数</Button>
 				</Mathmodal>
 			 	<Table
@@ -126,12 +158,11 @@ class Tables extends React.Component{
 				 dataSource={this.state.data}
 				 loading={this.state.loading}
 				 pagination={false}/>
-				<Pagination
-				showQuickJumper
+				<Page
 				total={this.state.total}
 				current={this.state.current}
-				pagesize={this.state.pagesize}
-				onChange={this.pageChange}/>
+				PageSize={this.state.pagesize}
+				Pagination_foo={msg=>this.Pagination(msg)}/>
 			</div>
 		)
 	}

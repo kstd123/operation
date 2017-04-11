@@ -25,33 +25,20 @@ class MathSearch extends React.Component {
 		}
 		if(arr.length==0){
 			console.log('查询条件为空')
+			alert("输入查询条件")
 		}else{
-			let data_search = arr.join("&");
-			var new_data = "pageNow=1&pageNum=6&" + data_search;
-			this.post_test(new_data)//异步请求
+			let data = arr.join("&");
+			this.props.foo(data);
+			console.log(data)
 			arr.length=0;
-			console.log(arr)
 		}
 
 	}
 	handleReset = () => {//重置
 		this.props.form.resetFields();
+		this.props.foo1();
 	}
-	post_test = (data = "") => {
-		const req = request( 'http://localhost:3001/cas/v1/user/admin/password/sendresetByMobile', {
-			headers: { "Content-type": "application/x-www-form-urlencoded; charset=UTF-8"},
-			method: 'POST',
-			body: data,
-		}).then((data) => {
-		 this.setState({
-			 loading: false,
-			//  data:  data.data.list,
-			//  total: data.data.rowAll,
-		 });
-		 console.log(data.data.list)
-		 this.props.foo(data.data.list)
-	 });
-	}
+
 	render() {
 		const { getFieldDecorator } = this.props.form;
 		const formItemLayout = {

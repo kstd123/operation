@@ -1,8 +1,10 @@
-import { Table, Icon,Pagination } from 'antd';
+import { Table, Icon,Pagination, Button } from 'antd';
 import React from 'react';
 import { connect } from 'dva';
 import request from '../../utils/request';
-import Search from '../Search'
+import Search from '../Search';
+import Page from '../Page';
+
 const Columns = [
 	 {
 		 title:"发票请求流水号",
@@ -20,7 +22,13 @@ const Columns = [
 			 { text: '成功', value: '0' },
 			 { text: '失败', value: '1' },
 		 ]
-	 }
+	 },{
+ 		 title:"操作",
+ 		 key:"action",
+ 		 render:(record) => (
+ 					<Button type="primary">重发</Button>
+ 		 )
+ 	 }
  ]
 const rowSelection = {
 	 onChange: (selectedRowKeys, selectedRows) => {
@@ -39,30 +47,34 @@ const rowSelection = {
 class Tables extends React.Component{
 	state = {
 		data: [],
-		pagination: {},
-		loading: false,
 		current: 1,
-		pagesize: 6,
-		total:99,
-		search_data:""
+		pagesize: 10,
+		total:0,
+		search:'false',
+		loading: true,
+		authority:false,
+		search_data:'',
 	};
-	pageChange=(e)=>{
-			this.setState({
-				current: e
-			}, ()=>{
-					this.post_test();
-				}
-			)
+	Pagination(msg) {
+		this.setState({ current:msg },()=>{this.page_check()})
 	}
-	search_post(msg,all){
-		this.setState({data:msg,total:all})
-		// console.log()
-		console.log('search连接成功')
+	page_check(){
+		if(this.state.search=='true'){
+			this.post_search()
+		}else{
+			this.post()
+		}
 	}
- post_test = (data = "") => {
-	 data = "pageNow="+this.state.current+"&pageNum="+this.state.pagesize ;
-	this.setState({ search_data: data })
-	 const req = request( 'http://localhost:3001/cas/v1/email/select/all', {
+	Search(msg) {
+		this.setState({ search:'true',search_data: msg,current: 1 },()=>{this.page_check()})
+		console.log("search连接成功")
+	}
+	Search_clear() {
+		this.setState({current:1,search:'false'},()=>this.page_check())
+	}
+ post=(data="")=> {
+	  data= "pageNow="+this.state.current+"&pageNum="+this.state.pagesize
+	 const req = request( 'http://localhost:8088/email/select/all', {
 		 headers: { "Content-type": "application/x-www-form-urlencoded; charset=UTF-8"},
 		 method: 'POST',
 		 body: data,
@@ -70,23 +82,50 @@ class Tables extends React.Component{
 		console.log(data.data)
 		this.setState({
 			loading: false,
-			data:  data.data.date.list,
-			total: data.data.date.rowAll,
 		});
-	});
+		if(data.data.code=='0001'){
+			console.log('查询错误')
+			alert('数据库查询错误')
+		}else{
+			this.setState({
+				loading: false,
+				data:  data.data.date.list,
+				total: data.data.date.rowAll,
+			 })
+		}
+		});
+ }
+ post_search=(data="")=> {
+	 data = "pageNow="+this.state.current+"&pageNum="+this.state.pagesize+"&"+this.state.search_data
+	const req = request( 'http://localhost:8088/email/select/all', {
+		headers: { "Content-type": "application/x-www-form-urlencoded; charset=UTF-8"},
+		method: 'POST',
+		body: data,
+	}).then((data) => {
+	 console.log(data.data.date)
+	 this.setState({
+		 loading: false,
+	 });
+	 if(data.data.code=='0001'){
+		 console.log('查询错误')
+		 alert('数据库查询错误')
+	 }else{
+		 this.setState({
+			 data:  data.data.date.list,
+			 total: data.data.date.rowAll,
+		 });
+	 }
+	 console.log(data.data.list)
+ });
+ }
+	componentDidMount() {
+		 this.post();
  }
 
-	foo=()=>{
-		console.log("失败饿了")
-	}
-	componentDidMount() {
-		 this.post_test();
- }
 render(){
 	return(<div>
-			<Search
-			field={Columns}
-			foo={(msg,all)=>this.search_post(msg,all)}/>
+			<Search field={Columns} foo={msg=>this.Search(msg)}
+			foo1={()=>this.Search_clear()}/>
 		 	<Table
 			 rowSelection={rowSelection}
 			 columns={Columns}
@@ -94,12 +133,12 @@ render(){
 			 loading={this.state.loading}
 			 pagination={false}/>
 
-			<Pagination
-			showQuickJumper
+			<Page
 			total={this.state.total}
 			current={this.state.current}
-			pagesize={this.state.pagesize}
-			onChange={this.pageChange}/>
+			defaultPageSize={this.state.pagesize}
+			Pagination_foo={msg=>this.Pagination(msg)}
+			/>
 		</div>
 	)
 }

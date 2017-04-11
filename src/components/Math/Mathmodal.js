@@ -27,6 +27,7 @@ class Mathmodal extends React.Component {
 
   okHandler = () => {
     const { onOk } = this.props;
+		let msg = '';
     this.props.form.validateFields((err, values) => {
       if (!err) {
         // onOk(values);
@@ -36,29 +37,15 @@ class Mathmodal extends React.Component {
 					 arr.push( i+"="+values[i] )
 				}
 				let data = arr.join("&");
-				data = "pageNow=1&pageNum6"+data
 				console.log(data)
-				this.fetch_add(data)
+				msg =data;
+				// this.props.foo2(data);
         this.hideModelHandler();
       }
     });
+		this.props.foo2(msg)
   };
-	fetch_add = (data = "") => {
-	 this.setState({ search_data: data,loading:true })
-		const req = request( 'http://localhost:3001/cas/v1/user/admin/password_failed/sendresetByMobile', {
-			headers: { "Content-type": "application/x-www-form-urlencoded; charset=UTF-8"},
-			method: 'POST',
-			body: data,
-		}).then((data) => {
-		 console.log(data.data)
-		 this.setState({
-			 loading: false,
-			//  data:  data.data.list,
-			//  total: data.data.rowAll,
-		 });
-		 this.props.foo(data.data.list)
-	 });
-	}
+
   render() {
     const { children } = this.props;
     const { getFieldDecorator } = this.props.form;
@@ -74,7 +61,7 @@ class Mathmodal extends React.Component {
           { children }
         </span>
         <Modal
-          title="Edit User"
+          title="新增参数"
           visible={this.state.visible}
           onOk={this.okHandler}
           onCancel={this.hideModelHandler}

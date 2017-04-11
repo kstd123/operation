@@ -23,45 +23,27 @@ class AdvancedSearchForm extends React.Component {
 				arr.push(i+"="+info[i])
 			}
 		}
-		let data_search = arr.join("&");
-		if(arr.length=0){consoel.log("查询条件为空")}else{
-			var new_data = "pageNow=1&pageNum=6&" + data_search;
-			this.post(new_data)
-			arr.lenght=0;
-		}
+		let data = arr.join("&");
+		// if(arr.length=0){
+		// 	consoel.log("查询条件为空");
+		// }else{
+		// 	this.props.foo(data);
+		// 	console.log(data)
+		// }
+		this.props.foo(data);
+		console.log(data)
   }
 
   handleReset = () => {//重置
     this.props.form.resetFields();
+		this.props.foo1()
   }
 
   toggle = () => {//展开搜索框
     const { expand } = this.state;
     this.setState({ expand: !expand });
   }
-	post=(data="")=> {
-		const req = request( 'http://localhost:3001/cas/v1/user/admin/password/sendresetByMobile', {
-			headers: { "Content-type": "application/x-www-form-urlencoded; charset=UTF-8"},
-			method: 'POST',
-			body: data,
-		}).then((data) => {
-		 console.log(data.data)
-		 this.setState({
-			 loading: false,
-		 });
-		 if(data.data.code=='0001'){
-			 console.log('查询错误')
-			 alert('数据库查询错误')
-		 }else{
-			 //  this.props.foo(data.data.date.list,data.data.date.rowAll)
 
-	 		 this.props.foo([{fpqqlsh:"123",adress:"ljx",nresult:"小小少年"},{fpqqlsh:"123",adress:"ljx",result:"bzsb"}])
-		 }
-
-
-		 console.log(data.data.list)
-	 });
-	}
   render() {
     const { getFieldDecorator } = this.props.form;
     const formItemLayout = {

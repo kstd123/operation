@@ -3,6 +3,7 @@ import React from 'react';
 import { connect } from 'dva';
 import request from '../../utils/request';
 import Search from './CompanySearch'
+import Page from '../Page'
 
 class Button1 extends React.Component {
 	state = {
@@ -24,7 +25,7 @@ class Button1 extends React.Component {
 }
 const Columns = [
 	 { title:"公司名称",dataIndex:"corpname",key:"corpname",width:230, fixed:'left'},
-	 { title:"名称",dataIndex:"corpcode",key:"corpcode"},
+	 { title:"公司编号",dataIndex:"corpcode",key:"corpcode"},
 	 { title:"联系人",dataIndex:"contact",key:"contact"},
 	 { title:"公司地址",dataIndex:"corpaddress",key:"corpaddress"},
 	 { title:"公司电话",dataIndex:"corpphone",key:"corpphone"},
@@ -57,21 +58,24 @@ class Company extends React.Component{
 
 	state = {
 		data: [],
-		pagination: {},
-		loading: true,
 		current: 1,
-		pagesize: 6,
+		pagesize: 10,
 		total:99,
+		search:'false',
+		loading: true,
 		authority:false,
+		search_data:'',
 	};
 
-	pageChange=(e)=>{
-				this.setState({
-					current: e
-				}, ()=>{
-						this.post_test();
-					}
-				)
+	Pagination(msg) {
+		this.setState({ current:msg },()=>{this.page_check()})
+	}
+	page_check(){
+		if(this.state.search=='true'){
+			this.post_search()
+		}else{
+			this.post()
+		}
 	}
 	enterLoading = ()=>{//开通权限
 		this.setState({ authority: false })
@@ -79,17 +83,18 @@ class Company extends React.Component{
 			this.setstate({ authority: true })
 		},2000)
 	}
-	searchpost(msg,all) {
-		this.setState({ data:msg,total:all })
+	Search(msg) {
+		this.setState({ search:'true',search_data: msg,current: 1 },()=>{this.page_check()})
 		console.log("search连接成功")
 	}
-	post_test = (params = {
-		pageNow: this.state.current,
-		pageNum: this.state.pagesize
+	Search_clear() {
+		this.setState({current:1,search:'false'},()=>this.page_check())
+	}
+	post = (data = {
 		}) => {
-		let data ="cp="+this.state.current+"&ls="+this.state.pagesize
-		let info = "col=corpname&kw=84"
-	 const req = request( 'http://localhost:8080/company/list?'+data, {
+		data ="cp="+this.state.current+"&ls="+this.state.pagesize
+		// let info = "col=corpname&kw=84"
+	 const req = request( 'http://localhost:8088/company/list?'+data, {
 		 headers: { "Content-type": "application/x-www-form-urlencoded; charset=UTF-8"},
 		 method: 'GET',
 	 })
@@ -100,18 +105,36 @@ class Company extends React.Component{
 		}
 		this.setState({
 			loading: false,
-			data:  data.data.allCompanys,
+			data: data.data.allCompanys,
+			total: data.data.allRecorders
+		});
+	});
+ 	}
+ post_search = (data = "") => {
+	 data="?ls="+this.state.pagesize+"&cp="+this.state.current+"&"+this.state.search_data;
+	 const req = request( 'http://localhost:8088/company/list'+ data,
+	 {
+		 headers: { "Content-type": "application/x-www-form-urlencoded; charset=UTF-8"},
+		 method: 'GET',
+	 }).then((data) => {
+		 for(let i in data.data.allCompanys){
+			 data.data.allCompanys[i].btrail=='Y'?data.data.allCompanys[i].btrail="已开通" : data.data.allCompanys[i].btrail="未开通"
+		 }
+		this.setState({
+			loading: false,
+			data: data.data.allCompanys,
 			total: data.data.allRecorders
 		});
 	});
  }
 	componentDidMount() {
-	this.post_test();
+	this.post();
 	}
 
 	render(){
 		return(<div>
-				<Search Columns={Columns} foo={(msg,all)=>this.Searchpost(msg,all)}/>
+				<Search Columns={Columns} foo={msg=>this.Search(msg)}
+				foo1={()=>this.Search_clear()}/>
 			<Table
 				rowSelection={rowSelection}
 				columns={Columns}
@@ -122,12 +145,11 @@ class Company extends React.Component{
 				loading={this.state.authority}
 				onclick={this.enterLoading}
 				/>
-			<Pagination
-			showQuickJumper
+			<Page
 			total={this.state.total}
 			current={this.state.current}
-			pagesize={this.state.pagesize}
-			onChange={this.pageChange}
+			defaultPageSize={this.state.pagesize}
+			Pagination_foo={msg=>this.Pagination(msg)}
 	/>
 			</div>
 		)

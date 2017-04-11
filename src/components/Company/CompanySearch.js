@@ -7,7 +7,7 @@ let key = '';
 class MathSearch extends React.Component {
 	state ={
 		current: 1,
-		pagesize: 6,
+		pagesize: 10,
 		loading:false,
 		// key:"xxx",
 	}
@@ -19,31 +19,21 @@ class MathSearch extends React.Component {
 			value = info.name//取出value{name:"123"}
 		});
 		// let key = this.state.key
-		var new_data = "?ls=1&cp=6&col="+Arr[key]+"&kw="+value;
+		let data = "&col="+Arr[key]+"&kw="+value;
 		console.log(this.state.key)
-		console.log(new_data)
-		this.fetch(new_data)
+		console.log(data)
+		this.props.foo(data)//传出查询条件
 	}
 	handleReset = () => {//重置
 		this.props.form.resetFields();
 		key=''
+		this.props.foo1();
 	}
 	select_handleChange(e) {
 		console.log(e)
 		key=e
 	}
-	fetch = (data = "&col='coprame'&kw='湖南'") => {
-		const req = request( 'http://localhost:8080/company/list'+ data, {
-			headers: { "Content-type": "application/x-www-form-urlencoded; charset=UTF-8"},
-			method: 'GET',
-		}).then((data) => {
-		 this.setState({
-			 loading: false,
-			 total: data.data.rowAll,
-		 });
-		 this.props.foo(data.data.allCompanys,data.data.allRecorders)
-	 });
-	}
+
 	render() {
 		const { getFieldDecorator } = this.props.form;
 		const formItemLayout = {
@@ -89,7 +79,7 @@ class MathSearch extends React.Component {
 					</Col>
 						{children}
 					<Col span={5} style={{ textAlign: 'right' }}>
-						<Button type="primary" htmlType="submit">搜素</Button>
+						<Button type="primary" htmlType="submit">搜索</Button>
 						<Button style={{ marginLeft: 8 }} onClick={this.handleReset}>
 							清空
 						</Button>
