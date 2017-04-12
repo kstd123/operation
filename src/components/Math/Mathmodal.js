@@ -89,7 +89,7 @@ class Mathmodal extends React.Component {
             </FormItem>
             <FormItem
               {...formItemLayout}
-              label="名称"
+              label="参数名称"
             >
               {
                 getFieldDecorator('name', {
@@ -167,16 +167,7 @@ class Mathmodal extends React.Component {
 								})(<Input />)
 							}
 						</FormItem>
-						<FormItem
-							{...formItemLayout}
-							label="名称"
-						>
-							{
-								getFieldDecorator('ts', {
-									initialValue: ts,
-								})(<Input />)
-							}
-						</FormItem>
+						
           </Form>
         </Modal>
       </span>

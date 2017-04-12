@@ -110,7 +110,7 @@ class Tables extends React.Component{
  }
  post_search = (data = "") => {
 	 data="pageNow="+this.state.current+"&pageNum="+this.state.pagesize +"&"+ this.state.search_data
-	 const req = request( 'http://localhost:3001/cas/v1/user/admin/password/sendresetByMobile', {
+	 const req = request( 'http://localhost:8088/parameter/selectByCondition', {
 		 headers: { "Content-type": "application/x-www-form-urlencoded; charset=UTF-8"},
 		 method: 'POST',
 		 body: data,

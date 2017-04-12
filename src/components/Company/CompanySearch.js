@@ -71,7 +71,6 @@ class MathSearch extends React.Component {
 				onSubmit={this.handleSearch}
 			>
 				<Row>
-					<Col span={4}></Col>
 					<Col span={3}>
 					<Select placeholder="查询条件"allowClear onChange={this.select_handleChange}>
 							{title_arr}

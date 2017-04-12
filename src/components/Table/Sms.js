@@ -4,42 +4,10 @@ import { connect } from 'dva';
 import request from '../../utils/request';
 import Search from '../Search'
 import Page from '../Page'
+import Btn from '../Btn'
+import Btn_batch from '../Btn_batch'
 
-const Columns = [
-        {
-			title:"发票请求流水号",
-			dataIndex:"fpqqlsh",
-			key:"conditionFpqqlsh"
-		},{
-			title:"接收地址",
-			dataIndex:"address",
-			key:"conditionAddress"
-		},{
-			title:"结果",
-			dataIndex: "result",
-			key:"conditionResult"
-		},{
-  		 title:"操作",
-  		 key:"action",
-  		 render:(record) => (
-  					<Button type="primary">重发</Button>
-  		 )
-  	 }
- ]
-const rowSelection = {
-	 onChange: (selectedRowKeys, selectedRows) => {
-		 console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
-	 },
-	 onSelect: (record, selected, selectedRows) => {
-		 console.log(record, selected, selectedRows);
-	 },
-	 onSelectAll: (selected, selectedRows, changeRows) => {
-		 console.log(selected, selectedRows, changeRows);
-	 },
-	 getCheckboxProps: record => ({
-		 disabled: record.name === 'Disabled User',    // Column configuration not to be checked
-	 }),
- };
+
 
  class Sms extends React.Component{
  	state = {
@@ -52,6 +20,25 @@ const rowSelection = {
  		authority:false,
  		search_data:'',
  	};
+	row_onChange=(selectedRowKeys, selectedRows) => {
+		selectedRowKeys=='' ? this.setState({ Btn_show: 'false',Rows:'' }) : this.setState({ Btn_show: 'true',Rows:selectedRowKeys })
+		console.log('选中了'+selectedRowKeys)
+	}
+	//重发回调
+	chongfa(e) {
+		console.log('重发成功')
+		console.log(e.id)
+	}
+	batch(e) {
+		console.log('批量重发了')
+		let res = this.state.data;
+		let arr = [];
+		for(let i in e){
+			if(res[e[i]]!=void(0))
+			arr.push(res[e[i]].id)}
+		console.log(arr.join(','))
+	}
+	//分页 搜索
  	Pagination(msg) {
  		this.setState({ current:msg },()=>{this.page_check()})
  	}
@@ -120,7 +107,41 @@ const rowSelection = {
   }
 
  render(){
+	 const Columns = [
+	         {
+	 			title:"发票请求流水号",
+	 			dataIndex:"fpqqlsh",
+	 			key:"conditionFpqqlsh"
+	 		},{
+	 			title:"接收地址",
+	 			dataIndex:"address",
+	 			key:"conditionAddress"
+	 		},{
+	 			title:"结果",
+	 			dataIndex: "result",
+	 			key:"conditionResult"
+	 		},{
+	   		 title:"操作",
+	   		 key:"action",
+	   		 render:(record) => (
+	   					<span><Btn show={'true'} name={'重发'}foo={()=>this.chongfa(record)}/></span>
+	   		 )
+	   	 }
+	  ]
+	 const rowSelection = {
+	 	 onChange: this.row_onChange,
+	 	 onSelect: (record, selected, selectedRows) => {
+	 		 console.log(record, selected, selectedRows);
+	 	 },
+	 	 onSelectAll: (selected, selectedRows, changeRows) => {
+	 		 console.log(selected, selectedRows, changeRows);
+	 	 },
+	 	 getCheckboxProps: record => ({
+	 		 disabled: record.name === 'Disabled User',    // Column configuration not to be checked
+	 	 }),
+	  };
  	return(<div>
+			<Btn_batch name={'批量重发'} show={this.state.Btn_show} foo={()=>this.batch(this.state.Rows)}/>
  			<Search field={Columns} foo={msg=>this.Search(msg)}
  			foo1={()=>this.Search_clear()}/>
  		 	<Table

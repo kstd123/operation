@@ -57,15 +57,15 @@ function RouterConfig({ history, app }) {
 				});
 			},
 		},
-	// 	{
-	// 	path: '/Upload',
-	// 	name: 'UploadPage',
-	// 	getComponent(nextState, cb) {
-	// 		require.ensure([], (require) => {
-	// 			cb(null, require('./routes/Company/CompanyUpload'));
-	// 		});
-	// 	},
-	// },
+		{
+		path: '/Upload',
+		name: 'UploadPage',
+		getComponent(nextState, cb) {
+			require.ensure([], (require) => {
+				cb(null, require('./routes/Company/CompanyUpload'));
+			});
+		},
+	},
 		{
 		path: '/Math',
 		name: 'mathPage',

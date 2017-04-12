@@ -101,7 +101,7 @@ class Company extends React.Component{
 	 .then((data) => {
 		console.log(data.data)
 		for(let i in data.data.allCompanys){
-			data.data.allCompanys[i].btrail=='Y'?data.data.allCompanys[i].btrail="已开通" : data.data.allCompanys[i].btrail="未开通"
+			data.data.allCompanys[i].btrail=='Y'?data.data.allCompanys[i].btrail="未开通" : data.data.allCompanys[i].btrail="已开通"
 		}
 		this.setState({
 			loading: false,
