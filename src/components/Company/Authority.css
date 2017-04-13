@@ -1,9 +1,9 @@
-td.btrail_Y {
+.ant-table-tbody > tr > td .btrail_Y {
 	color: red;
 }
-.btrail_N {
+td.btrail_N {
 	color: green;
 }
-.corpname {
-	font-size:200px
+.ant-table-tbody>tr>td.corpname {
+	color:red
 }

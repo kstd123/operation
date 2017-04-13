@@ -6,7 +6,6 @@ import request from '../../utils/request';
 import Mathmodal from './Mathmodal';
 import MathSearch from './MathSearch';
 import Page from '../Page'
-
 const Columns = [
 	 {
 		 title:"编号",
@@ -49,9 +48,7 @@ const Columns = [
        key: 'operation',
        render: (text, record) => (
            <Mathmodal record={record} Columns={Columns}
-					 foo2={ msg=>this.foo_modal(msg) } >
-            <Button type="primary">修改</Button>
-           </Mathmodal>
+					 foo2={ msg=>this.foo_modal(msg) } children="修改"/>
        ),
      },
  ]
@@ -64,7 +61,8 @@ class Tables extends React.Component{
 		pagesize: 10,
 		total:18,
 		search_data:"",
-		search:'false'
+		search:'false',
+		modal_key:Math.random()
 	};
 
 	Pagination(msg) {
@@ -77,10 +75,6 @@ class Tables extends React.Component{
 	Search_clear() {
 		this.setState({current:1,search:'false'},()=>this.page_check())
 	}
-	createHandler=()=>{
-		this.post()
-		console.log("createHandel!!!!!!!!!")
-	}
 	page_check(){
 		if(this.state.search=='true'){
 			this.post_search()
@@ -91,6 +85,9 @@ class Tables extends React.Component{
 	foo_modal(msg){
 		this.post_modal(msg);
 		console.log("修改了"+msg)
+	}
+	change_key(){
+		this.setState({ modal_key: Math.random()*1000 })
 	}
  post = (data = "") => {
 	 data = "pageNow="+this.state.current+"&pageNum="+this.state.pagesize
@@ -150,9 +147,11 @@ class Tables extends React.Component{
 				/>
 				<Mathmodal
 				record={{}}
-				foo2={ msg=>this.foo_modal(msg) }>
-					<Button type="primary">新增参数</Button>
-				</Mathmodal>
+				foo={()=>this.change_key()}
+				foo2={ msg=>this.foo_modal(msg) }
+				children="新增参数"
+				key={this.state.modal_key}
+				/>
 			 	<Table
 				 columns={Columns}
 				 dataSource={this.state.data}

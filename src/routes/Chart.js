@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'dva';
-// import ChartComponent from '../components/Chart/chart';
+import ChartComponent from '../components/Chart/Chart';
 import MainLayout from '../components/MainLayout/MainLayout'
 import { Row, Col } from 'antd';
 
@@ -8,13 +8,13 @@ function Chart() {
 	return (
 		<MainLayout>
 			<div>
-				<Row type="flex" justify="center">
-					<Col span={10}>456</Col>
-					<Col span={10}>123</Col>
+				<Row >
+					<Col span={12}><ChartComponent/></Col>
+					<Col span={12}><ChartComponent/></Col>
 				</Row>
-				<Row type="flex" justify="center">
-					<Col span={10}>789</Col>
-					<Col span={10}>222</Col>
+				<Row>
+					<Col span={12}><ChartComponent/></Col>
+					<Col span={12}><ChartComponent/></Col>
 				</Row>
 			</div>
 		</MainLayout>

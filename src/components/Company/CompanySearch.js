@@ -47,8 +47,8 @@ class MathSearch extends React.Component {
 	 		}];
 		for (let i = 0; i < field.length  ; i++) {
 			children.push(
-				<Col span={8} key={i}>
-					<FormItem {...formItemLayout} label={field[i].title}>
+				<Col span={8}>
+					<FormItem {...formItemLayout} label={field[i].title}  key={i}>
 						{getFieldDecorator(field[i].key)(
 							<Input placeholder="键入以搜索" />
 						)}

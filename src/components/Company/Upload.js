@@ -5,6 +5,7 @@ import request from '../../utils/request';
 import Search from './CompanySearch'
 import Page from '../Page'
 import Btn from '../Btn'
+import File_Btn from './File_Btn'
 const list = [
 		{'corpname':'zzz','cordcope':'123','btrail':'Y','id':'0'},
 		{'corpname':'mmm','cordcode':'000','btrail':'Y','id':'1'},
@@ -128,9 +129,9 @@ class Upload1 extends React.Component{
 				 title:"操作",
 				 key:"action",
 				 render:(record) => (
-					 	<div>
-							<span><Btn show={'true'} name={'上传'}foo={()=>this.shouquan(record)}/></span>
-						</div>
+					 <span>
+					 	<File_Btn/>
+					 </span>
 				 )
 			 }
 		 ]
@@ -170,9 +171,9 @@ class Upload1 extends React.Component{
 					foo={msg=>this.Search(msg)}
 					foo1={()=>this.Search_clear()}
 				/>
-			
+
 				<Table
-					rowSelection={rowSelection}
+					size='small'
 					columns={Columns}
 					dataSource={list}
 					loading={this.state.loading}

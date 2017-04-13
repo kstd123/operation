@@ -39,20 +39,6 @@ const Columns = [
 	 { title:"时间",dataIndex:"ts",key:"ts"},
 	 { title:"权限",dataIndex:"btrail",key:"btrail"}
  ]
-const rowSelection = {
-	 onChange: (selectedRowKeys, selectedRows) => {
-		 console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
-	 },
-	 onSelect: (record, selected, selectedRows) => {
-		 console.log(record, selected, selectedRows);
-	 },
-	 onSelectAll: (selected, selectedRows, changeRows) => {
-		 console.log(selected, selectedRows, changeRows);
-	 },
-	 getCheckboxProps: record => ({
-		 disabled: record.name === 'Disabled User',    // Column configuration not to be checked
-	 }),
- };
 
 class Company extends React.Component{
 
@@ -76,12 +62,6 @@ class Company extends React.Component{
 		}else{
 			this.post()
 		}
-	}
-	enterLoading = ()=>{//开通权限
-		this.setState({ authority: false })
-		setTimeout(()=>{
-			this.setstate({ authority: true })
-		},2000)
 	}
 	Search(msg) {
 		this.setState({ search:'true',search_data: msg,current: 1 },()=>{this.page_check()})
@@ -136,14 +116,12 @@ class Company extends React.Component{
 				<Search Columns={Columns} foo={msg=>this.Search(msg)}
 				foo1={()=>this.Search_clear()}/>
 			<Table
-				rowSelection={rowSelection}
 				columns={Columns}
 				dataSource={this.state.data}
 				loading={this.state.loading}
 				pagination={false}
 				scroll={{ x: 2500 }}
 				loading={this.state.authority}
-				onclick={this.enterLoading}
 				/>
 			<Page
 			total={this.state.total}

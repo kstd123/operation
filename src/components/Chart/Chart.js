@@ -1,66 +1,59 @@
-import React, { Component } from 'react';
-var echarts = require('echarts/lib/echarts') //必须
-require('echarts/lib/chart/pie') //图表类型
-require('echarts/lib/component/title') //标题插件
-
-class Chart extends React.Component {
-	constructor(props) {
-		super(props)
-		this.setPieOption = this.setPieOption.bind(this)
+import React from 'react';
+import ReactEcharts1 from 'echarts-for-react';
+import macarons from './macarons.js'
+class Charts extends React.Component{
+	getOption(){
+		const option = {
+    color: ['#3398DB'],
+    tooltip : {
+        trigger: 'axis',
+        axisPointer : {            // 坐标轴指示器，坐标轴触发有效
+            type : 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+        }
+    },
+    grid: {
+        left: '3%',
+        right: '4%',
+        bottom: '3%',
+        containLabel: true
+    },
+    xAxis : [
+        {
+            type : 'category',
+            data : ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+            axisTick: {
+                alignWithLabel: true
+            }
+        }
+    ],
+    yAxis : [
+        {
+            type : 'value'
+        }
+    ],
+    series : [
+        {
+            name:'直接访问',
+            type:'bar',
+            barWidth: '60%',
+            data:[10, 52, 200, 334, 390, 330, 220]
+        }
+    ]
+		};
+		return option
 	}
-	initPie() {//公用方法
-		const { data } = this.props;
-		let myChart = echarts.init(this.refs.charts_react)//初始化echarts
-		let options = this.option;
-		myChart.setOption(options)
-	}
-	componentDidMount() {
-		this.initPie()
-	}
-	ComponentDidUpdate() {
-		this.initPie()
-	}
-	render () {
+	// echarts.registerTheme('my_theme', {
+  // 	backgroundColor: '#f4cccc'
+	// });
+	render() {
 		return(
-			<div className="chart">
-				<div ref="charts_react" style={{width:"200px", height:"200px"}}></div>
-			</div>
-		
-		)
+			<ReactEcharts1
+			  option={this.getOption()}
+				notMerge={true}
+				lazyUpdate={true}
+				theme="macarons"
+			   />
+			 )
 	}
-	setOption(data) {
-         return {
-             series : [
-                 {
-                     name: '比例',
-                     type: 'pie',
-                     radius: ['70%', '90%'],
-                     avoidLabelOverlap: true,
-                     data: data, //传入外部的data数据
-                     label: {
-                         normal: {
-                             show: false,
-                             position: 'center',
-                             textStyle: {
-                                 fontSize: '18'
-                             },
-                             formatter: "{d}% \n{b}",
-                         },
-                         emphasis: {
-                             show: true,
-                             textStyle: {
-                                 fontSize: '18',
-                             }
-                         }
-                     },
-                     labelLine: {
-                         normal: {
-                             show: false
-                         }
-                     }
-                 }
-             ]
-         }
-     }
 }
-export default Chart
+export default Charts

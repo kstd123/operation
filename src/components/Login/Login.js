@@ -1,8 +1,7 @@
-import { Form, Icon, Input, Button, Checkbox, Row } from 'antd';
+import { Form, Icon, Input, Button, Checkbox, Row, Col } from 'antd';
 import { Link } from 'dva/router';
 import './Login.css';
 const FormItem = Form.Item;
-
 class Login extends React.Component {
   handleSubmit = (e) => {
     e.preventDefault();
@@ -30,24 +29,39 @@ class Login extends React.Component {
             <Input prefix={<Icon type="lock" style={{ fontSize: 13 }} />} type="password" placeholder="密码" />
           )}
         </FormItem>
-				<Row type="flex" justify="center">
 	        <FormItem>
-	          {getFieldDecorator('remember', {
-	            valuePropName: 'checked',
-	            initialValue: true,
-	          })(
-	            <Checkbox>记住密码</Checkbox>
-	          )}
-	          <a className="login-form-forgot">忘记密码</a>
-						<br/>
-	          <Button type="primary" htmlType="submit" className="login-form-button" style={{margin:"0 0 0 30px"}}>
-	            <Link to="/index">登陆</Link>
-
-	          </Button>
-						<br/>
-	          没有帐号？  <a>注册</a>
+					<Row>
+					<Col span={4}></Col>
+						<Col span={8}>
+			          {getFieldDecorator('remember', {
+			            valuePropName: 'checked',
+			            initialValue: true,
+			          })(
+			            <Checkbox>记住密码</Checkbox>
+			          )}
+							</Col>
+							<Col span={8}>
+			          <a className="login-form-forgot">忘记密码</a>
+							</Col>
+							<Col span={4}></Col>
+						</Row>
+						<Row>
+						<Col span={8}></Col>
+						<Col span={8}>
+							<Button type="primary" htmlType="submit" className="login-form-button" >
+								<Link to="/index">登陆</Link>
+							</Button>
+						</Col>
+						<Col span={8}></Col>
+						</Row>
+						<Row>
+							<Col span={7}></Col>
+							<Col span={10}>
+								 没有帐号?<a>注册</a>
+							</Col>
+							<Col span={7}></Col>
+						</Row>
 	        </FormItem>
-				</Row>
       </Form>
     );
   }

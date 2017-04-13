@@ -1,14 +1,12 @@
 import React, { Component } from 'react';
-import { Modal, Form, Input } from 'antd';
+import { Modal, Form, Input,Button } from 'antd';
 import request from '../../utils/request';
 const FormItem = Form.Item;
-
 class Mathmodal extends React.Component {
-
   constructor(props) {
     super(props);
     this.state = {
-      visible: false,//设置对话框状态
+      visible: false,
     };
   }
 
@@ -23,6 +21,7 @@ class Mathmodal extends React.Component {
     this.setState({
       visible: false,
     });
+		this.props.foo();
   };
 
   okHandler = () => {
@@ -49,22 +48,22 @@ class Mathmodal extends React.Component {
   render() {
     const { children } = this.props;
     const { getFieldDecorator } = this.props.form;
-    const { id,code,name,corpid,orgid,layer,value,valueclass,createtime,ts,corpname } = this.props.record;
+	  const { id,code,name,corpid,orgid,layer,value,valueclass,createtime,ts,corpname } = this.props.record;
     const formItemLayout = {
       labelCol: { span: 6 },
       wrapperCol: { span: 14 },
     };
-
     return (
       <span>
-        <span onClick={this.showModelHandler}>
+        <Button type='primary' onClick={this.showModelHandler}>
           { children }
-        </span>
+        </Button>
         <Modal
           title="新增参数"
           visible={this.state.visible}
           onOk={this.okHandler}
           onCancel={this.hideModelHandler}
+					key={this.props.key}
         >
           <Form horizontal onSubmit={this.okHandler}>
             <FormItem
@@ -167,7 +166,6 @@ class Mathmodal extends React.Component {
 								})(<Input />)
 							}
 						</FormItem>
-						
           </Form>
         </Modal>
       </span>

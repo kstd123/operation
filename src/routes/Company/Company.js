@@ -6,7 +6,6 @@ import Search from '../../components/Search'
 function Table() {
 	return(
 		<MainLayout>
-
 			<TableComponent/>
 		</MainLayout>
 	)
