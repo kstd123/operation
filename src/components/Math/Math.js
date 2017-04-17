@@ -6,52 +6,8 @@ import request from '../../utils/request';
 import Mathmodal from './Mathmodal';
 import MathSearch from './MathSearch';
 import Page from '../Page'
-const Columns = [
-	 {
-		 title:"编号",
-		 dataIndex:"id",
-		 key:"id"
-	 },{
-		 title:"编码",
-		 dataIndex:"code",
-		 key:"code"
-	 },{
-		 title:"参数名称",
-		 dataIndex: "name",
-		 key:"name",
-	 },{
-		 title:"公司id",
-		 dataIndex: "corpid",
-		 key:"corpid",
-	 },{
-		 title:"组织id",
-		 dataIndex: "orgid",
-		 key:"orgid",
-	 },{
-		 title:"层次",
-		 dataIndex: "layer",
-		 key:"layer",
-	 },{
-		 title:"数值",
-		 dataIndex: "value",
-		 key:"value",
-	 },{
-		 title:"名称",
-		 dataIndex: "valueclass",
-		 key:"valueclass",
-	 },{
-		 title: "公司名称",
-		 dataIndex: "corpname",
-		 key:"corpname"
-	 },{
-       title: '操作',
-       key: 'operation',
-       render: (text, record) => (
-           <Mathmodal record={record} Columns={Columns}
-					 foo2={ msg=>this.foo_modal(msg) } children="修改"/>
-       ),
-     },
- ]
+const list = [{"id":"001","code":"001002","corpname":"yon1"},{"id":"002","code":"001003","corpname":"yon1"}]
+
 class Tables extends React.Component{
 
 	state = {
@@ -62,7 +18,7 @@ class Tables extends React.Component{
 		total:18,
 		search_data:"",
 		search:'false',
-		modal_key:Math.random()
+		modal_key:Math.random()//key不重复，实现列表清空
 	};
 
 	Pagination(msg) {
@@ -88,6 +44,9 @@ class Tables extends React.Component{
 	}
 	change_key(){
 		this.setState({ modal_key: Math.random()*1000 })
+	}
+	kong(){
+		console.log('nothing')
 	}
  post = (data = "") => {
 	 data = "pageNow="+this.state.current+"&pageNum="+this.state.pagesize
@@ -139,6 +98,52 @@ class Tables extends React.Component{
  }
 
 	render(){
+		const Columns = [
+			 {
+				 title:"编号",
+				 dataIndex:"id",
+				 key:"id"
+			 },{
+				 title:"编码",
+				 dataIndex:"code",
+				 key:"code"
+			 },{
+				 title:"参数名称",
+				 dataIndex: "name",
+				 key:"name",
+			 },{
+				 title:"公司id",
+				 dataIndex: "corpid",
+				 key:"corpid",
+			 },{
+				 title:"组织id",
+				 dataIndex: "orgid",
+				 key:"orgid",
+			 },{
+				 title:"层次",
+				 dataIndex: "layer",
+				 key:"layer",
+			 },{
+				 title:"数值",
+				 dataIndex: "value",
+				 key:"value",
+			 },{
+				 title:"名称",
+				 dataIndex: "valueclass",
+				 key:"valueclass",
+			 },{
+				 title: "公司名称",
+				 dataIndex: "corpname",
+				 key:"corpname"
+			 },{
+		       title: '操作',
+		       key: 'operation',
+		       render: (text, record) => (
+		           <Mathmodal record={record} Columns={Columns}
+							 foo2={ msg=>this.foo_modal(msg) } foo={()=>this.kong()}children="修改"/>
+		       ),
+		     },
+		 ]
 		return(
 			<div>
 				<MathSearch field={Columns}
@@ -154,7 +159,7 @@ class Tables extends React.Component{
 				/>
 			 	<Table
 				 columns={Columns}
-				 dataSource={this.state.data}
+				 dataSource={list}
 				 loading={this.state.loading}
 				 pagination={false}/>
 				<Page

@@ -21,7 +21,7 @@ class Chart extends React.Component{
 	    xAxis : [
 	        {
 	            type : 'category',
-	            data : ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+	            data : this.props.x_data,
 	            axisTick: {
 	                alignWithLabel: true
 	            }
@@ -37,13 +37,13 @@ class Chart extends React.Component{
 	            name:'直接访问',
 	            type:'bar',
 	            barWidth: '60%',
-	            data:[10, 52, 200, 334, 390, 330, 220]
+	            data:this.props.data
 	        }
 	    ]
 		}
 		return(
 			<ReactEcharts
-			  option={this.props.option}
+			  option={option}
 				notMerge={true}
 				lazyUpdate={true}
 				theme="macarons"

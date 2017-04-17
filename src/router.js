@@ -120,16 +120,24 @@ function RouterConfig({ history, app }) {
 				});
 			},
 		},
-
 		{
 			path: '/chart',
 			name: 'chartPage',
 			getComponent(nextState, cb) {
 				require.ensure([], (require) => {
-					cb(null, require('./routes/Chart'));
+					cb(null, require('./routes/Chart/Chart_detail'));
 				});
 			},
 		},
+    {
+      path: '/watch',
+      name: 'chartPage',
+      getComponent(nextState, cb) {
+        require.ensure([], (require) => {
+          cb(null, require('./routes/Chart/Chart_watch'));
+        });
+      },
+    },
   ];
 
   return <Router history={history} routes={routes} />;

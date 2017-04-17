@@ -12,7 +12,7 @@
   "autoprefixer": null,
   "proxy": {
     "/test": {
-      "target": "http://192.168.52.101:8080",
+      "target": "http://localhost:8080/",
       "changeOrigin": true,
       "pathRewrite": { "^/cas" : "" }
     }

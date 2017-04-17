@@ -82,8 +82,8 @@ class Headers extends React.Component{
 						<Menu.Item key="11"><Link to="/Wechat">微信</Link></Menu.Item>
 	        </SubMenu>
 					<SubMenu key="sub4" title={<span><Icon type="area-chart" style={{margin:"0 30px 0 0 "}}/><span>报表</span></span>}>
-					 <Menu.Item key="12"><Link to="/Chart">菜单四1</Link></Menu.Item>
-					 <Menu.Item key="13">菜单四2</Menu.Item>
+					 <Menu.Item key="12"><Link to="/Chart">开票总览</Link></Menu.Item>
+					 <Menu.Item key="13"><Link to="/watch">详情统计</Link></Menu.Item>
 				 </SubMenu>
 	      </Menu>
 			</Sider>
