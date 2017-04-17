@@ -56,7 +56,7 @@ class Company extends React.Component{
 		for(let i in e){
 			if(res[e[i]]!=void(0))
 			arr.push(res[e[i]].id)}
-		console.log(arr.join(','))
+		console.log(arr.join('|'))
 	}
 	//分页 搜索
 	Pagination(msg) {
@@ -129,7 +129,7 @@ class Company extends React.Component{
 		const Columns = [
 			 { title:"公司名称", dataIndex:"corpname", key:"corpname", width:230, fixed:'left', className:'corpname'},
 			 { title:"名称", dataIndex:"corpcode", key:"corpcode"},
-			 { title:"公司名称", dataIndex:"contact", key:"contact"},
+			 { title:"联系人", dataIndex:"contact", key:"contact"},
 			 { title:"公司地址", dataIndex:"corpaddress", key:"corpaddress"},
 			 { title:"公司电话", dataIndex:"corpphone", key:"corpphone"},
 			 { title:"公司邮箱", dataIndex:"corpemail", key:"corpemail"},

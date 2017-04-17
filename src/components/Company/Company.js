@@ -113,7 +113,10 @@ class Company extends React.Component{
 
 	render(){
 		return(<div>
-				<Search Columns={Columns} foo={msg=>this.Search(msg)}
+				<Search
+				Arr={'company'}
+				Columns={Columns}
+				foo={msg=>this.Search(msg)}
 				foo1={()=>this.Search_clear()}/>
 			<Table
 				columns={Columns}

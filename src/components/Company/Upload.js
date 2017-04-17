@@ -6,18 +6,6 @@ import Search from './CompanySearch'
 import Page from '../Page'
 import Btn from '../Btn'
 import File_Btn from './File_Btn'
-const list = [
-		{'corpname':'zzz','cordcope':'123','btrail':'Y','id':'0'},
-		{'corpname':'mmm','cordcode':'000','btrail':'Y','id':'1'},
-		{'corpname':'mmm','cordcode':'000','btrail':'N','id':'2'},
-		{'corpname':'mmm','cordcode':'000','btrail':'Y','id':'3'},
-		{'corpname':'mmm','cordcode':'000','btrail':'Y','id':'4'},
-		{'corpname':'mmm','cordcode':'000','btrail':'Y','id':'5'},
-		{'corpname':'mmm','cordcode':'000','btrail':'N','id':'6'},
-		{'corpname':'mmm','cordcode':'000','btrail':'N','id':'7'},
-		{'corpname':'mmm','cordcode':'000','btrail':'Y','id':'8'},
-		{'corpname':'mmm','cordcode':'000','btrail':'N','id':'9'},
-	]
 
 class Upload1 extends React.Component{
 
@@ -80,7 +68,7 @@ class Upload1 extends React.Component{
 		}) => {
 		data ="cp="+this.state.current+"&ls="+this.state.pagesize
 		// let info = "col=corpname&kw=84"
-	 const req = request( 'http://localhost:8088/company/listNoOpen?'+data, {
+	 const req = request( 'http://localhost:8088/pages/appregister?'+data, {
 		 headers: { "Content-type": "application/x-www-form-urlencoded; charset=UTF-8"},
 		 method: 'GET',
 	 })
@@ -94,10 +82,8 @@ class Upload1 extends React.Component{
 	});
 		}
 	post_search = (data = "") => {
-		for(let i in list){
-		}
 	 data="?ls="+this.state.pagesize+"&cp="+this.state.current+"&"+this.state.search_data;
-	 const req = request( 'http://localhost:8088/company/listNoOpen'+ data,
+	 const req = request( 'http://localhost:8088/pages/appregister'+ data,
 	 {
 		 headers: { "Content-type": "application/x-www-form-urlencoded; charset=UTF-8"},
 		 method: 'GET',
@@ -167,6 +153,7 @@ class Upload1 extends React.Component{
 		return(
 			<div>
 				<Search
+					Arr={'upload'}
 					Columns={Columns}
 					foo={msg=>this.Search(msg)}
 					foo1={()=>this.Search_clear()}
@@ -175,7 +162,7 @@ class Upload1 extends React.Component{
 				<Table
 					size='small'
 					columns={Columns}
-					dataSource={list}
+					dataSource={this.state.data}
 					loading={this.state.loading}
 					pagination={false}
 					loading={this.state.authority}

@@ -6,7 +6,7 @@ class MathSearch extends React.Component {
 	state ={
 		current: 1,
 		pagesize: 6,
-		data:[]
+		message:''
 	}
 	handleSearch = (e) => {//search事件组装查询条件
 		this.setState({ loading:true })
@@ -18,25 +18,32 @@ class MathSearch extends React.Component {
 		});
 		let arr =[]
 		for(let i in info){
-			if(info[i]===void(0)){}
+			if(info[i]==void(0)||info[i]==""){}
 			else {
 				arr.push(i+"="+info[i])
 			}
 		}
 		if(arr.length==0){
 			console.log('查询条件为空')
-			alert("输入查询条件")
+			this.setState({message:
+				<Alert
+				 description="查询值或条件不能为空"
+				 type="warning"
+				 showIcon
+			 />
+		 })
 		}else{
+			this.setState({ message: '' })
 			let data = arr.join("&");
 			this.props.foo(data);
 			console.log(data)
 			arr.length=0;
 		}
-
 	}
 	handleReset = () => {//重置
 		this.props.form.resetFields();
 		this.props.foo1();
+		this.state.message != '' ? this.setState({ message: '' }) : console.log('搜索正常')
 	}
 
 	render() {
@@ -55,8 +62,8 @@ class MathSearch extends React.Component {
 	 		}];
 		for (let i = 0; i < field.length; i++) {
 			children.push(
-				<Col span={8} >
-					<FormItem {...formItemLayout} label={field[i].title} key={i}>
+				<Col span={8} key={i}>
+					<FormItem {...formItemLayout} label={field[i].title} >
 						{getFieldDecorator(field[i].key)(
 							<Input placeholder="键入以搜索" />
 						)}
@@ -69,6 +76,8 @@ class MathSearch extends React.Component {
 				className="ant-advanced-search-form"
 				onSubmit={this.handleSearch}
 			>
+			{this.state.message}
+
 				<Row>
 			{children}
 					<Col span={8} style={{ textAlign: 'right' }}>
