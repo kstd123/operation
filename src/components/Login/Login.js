@@ -30,36 +30,29 @@ class Login extends React.Component {
           )}
         </FormItem>
 	        <FormItem>
-					<Row>
+          <Row >
+          <Col span={8}></Col>
+          <Col span={8}>
+            <Button type="primary" htmlType="submit" className="login-form-button" >
+              <Link to="/index">登陆</Link>
+            </Button>
+          </Col>
+          <Col span={8}></Col>
+          </Row>
+					<Row style={{ marginTop: 5 }}>
 					<Col span={4}></Col>
 						<Col span={8}>
 			          {getFieldDecorator('remember', {
 			            valuePropName: 'checked',
 			            initialValue: true,
 			          })(
-			            <Checkbox>记住密码</Checkbox>
+			            <Checkbox> <a className="login-form-forgot">记住密码</a></Checkbox>
 			          )}
 							</Col>
+              <Col span={8}></Col>
 							<Col span={8}>
 			          <a className="login-form-forgot">忘记密码</a>
 							</Col>
-							<Col span={4}></Col>
-						</Row>
-						<Row>
-						<Col span={8}></Col>
-						<Col span={8}>
-							<Button type="primary" htmlType="submit" className="login-form-button" >
-								<Link to="/index">登陆</Link>
-							</Button>
-						</Col>
-						<Col span={8}></Col>
-						</Row>
-						<Row>
-							<Col span={7}></Col>
-							<Col span={10}>
-								 没有帐号?<a>注册</a>
-							</Col>
-							<Col span={7}></Col>
 						</Row>
 	        </FormItem>
       </Form>

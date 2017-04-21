@@ -59,7 +59,7 @@ class Mathmodal extends React.Component {
           { children }
         </Button>
         <Modal
-          title="新增参数"
+          title={this.props.children + "参数"}
           visible={this.state.visible}
           onOk={this.okHandler}
           onCancel={this.hideModelHandler}
@@ -151,18 +151,8 @@ class Mathmodal extends React.Component {
 							label="公司名称"
 						>
 							{
-								getFieldDecorator('corpaname', {
+								getFieldDecorator('corpname', {
 									initialValue: corpname,
-								})(<Input />)
-							}
-						</FormItem>
-						<FormItem
-							{...formItemLayout}
-							label="创建时间"
-						>
-							{
-								getFieldDecorator('createtime', {
-									initialValue: createtime,
 								})(<Input />)
 							}
 						</FormItem>

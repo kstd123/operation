@@ -88,15 +88,12 @@ class Headers extends React.Component{
 	      </Menu>
 			</Sider>
 			<Layout>
-				<Header style={{ background: '#fff', padding: 0 }} />
+				<Header style={{ background: '#fff', padding: 0 ,maxHeight:0}} />
 				<Content style={{ margin: '12px 16px 0 16px' }}>
-					<div style={{ padding: 24, background: '#fff', minHeight: 610 }}>
+					<div style={{ padding: 24, background: '#fff', minHeight: 680 }}>
 						{this.props.contents}
 					</div>
 				</Content>
-				<Footer style={{ textAlign: 'center' }}>
-					yonyou invoice
-				</Footer>
 			</Layout>
 		</Layout>
     );

@@ -32,5 +32,12 @@
     "redbox-react": "^1.3.2",
     "redux-devtools": "^3.3.2",
     "roadhog": "^0.5.2"
+  },
+  "consumedServices": {
+  "autosave": {
+    "versions": {
+      "1.0.0": "consumeAutosave"
+    }
   }
+}
 }

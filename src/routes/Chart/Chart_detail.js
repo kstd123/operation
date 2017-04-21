@@ -11,4 +11,5 @@ function Chart() {
 		</MainLayout>
 	)
 }
+
  export default connect()(Chart);

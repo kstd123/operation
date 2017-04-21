@@ -6,7 +6,13 @@ import Search from './CompanySearch'
 import Page from '../Page'
 import Btn from '../Btn'
 import File_Btn from './File_Btn'
-
+import Modal from './Modal'
+import style from '../style'
+const list = [
+	{"id":"001","appid":"oopss","corpid":"123456"},
+	{"id":"002","appid":"zzxx"},
+	{"id":"003","appid":"mmkk"}
+]
 class Upload1 extends React.Component{
 
 	state = {
@@ -64,6 +70,9 @@ class Upload1 extends React.Component{
 				this.setstate({ authority: true })
 			},2000)
 		}
+	updata(msg) {
+		console.log('修改成功')
+	}
 	post = (data = {
 		}) => {
 		data ="cp="+this.state.current+"&ls="+this.state.pagesize
@@ -103,7 +112,6 @@ class Upload1 extends React.Component{
 			 { title:"id", dataIndex:"id", key:"id", className:'corpname'},
 			 { title:"应用id", dataIndex:"appid", key:"appid"},
 			 { title:"公司id", dataIndex:"corpid", key:"corpid"},
-			 { title:"文件", dataIndex:"files", key:"files"},
 			 { title:"公钥", dataIndex:"publickey", key:"publickey"},
 			 { title:"密钥", dataIndex:"signkey", key:"signkey"},
 			 { title:"无效", dataIndex:"invaliddate", key:"invaliddate"},
@@ -111,15 +119,14 @@ class Upload1 extends React.Component{
 			 { title:"核实类", dataIndex:"verifyclass", key:"verifyclass"},
 			 { title:"创建时间", dataIndex:"createtime", key:"createtime"},
 			 { title:"时间", dataIndex:"ts", key:"ts"},
-			{
-				 title:"操作",
-				 key:"action",
-				 render:(record) => (
-					 <span>
-					 	<File_Btn/>
-					 </span>
-				 )
-			 }
+			 {
+ 					title: '操作',
+ 					key: 'operation',
+ 					render: (text, record) => (
+ 							<Modal record={record} Columns={Columns}
+ 							foo={ msg=>this.updata(msg) }children="查看证书"/>
+ 					),
+ 				},
 		 ]
 		const rowSelection = {
 			 onChange: this.row_onChange,
@@ -162,13 +169,15 @@ class Upload1 extends React.Component{
 				<Table
 					size='small'
 					columns={Columns}
-					dataSource={this.state.data}
+					dataSource={list}
 					loading={this.state.loading}
 					pagination={false}
 					loading={this.state.authority}
 					onclick={this.enterLoading}
 					rowKey={record => record.id}
 				/>
+				<style/>
+				<style/>
 				<Page
 					showQuickJumper
 					total={this.state.total}

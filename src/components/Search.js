@@ -86,7 +86,7 @@ class AdvancedSearchForm extends React.Component {
         <Row gutter={40}>
           {children.slice(0, shownCount)}
         </Row>
-        <Row>
+        <Row style={{ marginBottom:20 }}>
           <Col span={24} style={{ textAlign: 'right' }}>
             <Button type="primary" htmlType="submit">搜索</Button>
             <Button style={{ marginLeft: 8 }} onClick={this.handleReset}>

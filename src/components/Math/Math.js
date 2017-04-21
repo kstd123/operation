@@ -38,9 +38,13 @@ class Tables extends React.Component{
 			this.post()
 		}
 	}
-	foo_modal(msg){
-		this.post_modal(msg);
-		console.log("修改了"+msg)
+	add(msg){
+		this.add_modal(msg);
+		// console.log("新增了"+msg)
+	}
+	updata(msg) {
+		this.updata_modal(msg);
+		// console.log("修改了"+msg)
 	}
 	change_key(){
 		this.setState({ modal_key: Math.random()*1000 })
@@ -79,24 +83,27 @@ class Tables extends React.Component{
 		console.log(data.data.list)
 	});
  }
- post_modal = (data = "") => {
-	 data="pageNow="+this.state.current+"&pageNum="+this.state.pagesize +"&"+ data
-	 const req = request( 'http://localhost:3001/cas/v1/user/admin/password_failed/sendresetByMobile', {
+ updata_modal = (data) => {
+	 const req = request( 'http://localhost:8088/parameter/update', {
 		 headers: { "Content-type": "application/x-www-form-urlencoded; charset=UTF-8"},
 		 method: 'POST',
 		 body: data,
 	 }).then((data) => {
 		console.log(data.data)
-		this.setState({
-		  data:  data.data.data.list,
-		  total: data.data.data.rowAll,
-		});
 	});
+ }
+ add_modal = (data) => {
+	const req = request( 'http://localhost:8088/parameter/add', {
+		headers: { "Content-type": "application/x-www-form-urlencoded; charset=UTF-8"},
+		method: 'POST',
+		body: data,
+	}).then((data) => {
+	 console.log(data.data)
+ });
  }
 	componentDidMount() {
 		 this.post();
  }
-
 	render(){
 		const Columns = [
 			 {
@@ -140,23 +147,29 @@ class Tables extends React.Component{
 		       key: 'operation',
 		       render: (text, record) => (
 		           <Mathmodal record={record} Columns={Columns}
-							 foo2={ msg=>this.foo_modal(msg) } foo={()=>this.kong()}children="修改"/>
+							 foo2={ msg=>this.updata(msg) } foo={()=>this.kong()}children="修改"/>
 		       ),
 		     },
 		 ]
 		return(
 			<div>
+			<Row>
+				<Col span={8}>
+					<Mathmodal
+					record={{}}
+					foo={()=>this.change_key()}
+					foo2={ msg=>this.add(msg) }
+					children="新增"
+					key={this.state.modal_key}
+					/>
+				</Col>
+				<Col span={16}>
 				<MathSearch field={Columns}
 				foo={ msg=>this.Search(msg)}
 				foo1={()=>this.Search_clear()}
 				/>
-				<Mathmodal
-				record={{}}
-				foo={()=>this.change_key()}
-				foo2={ msg=>this.foo_modal(msg) }
-				children="新增参数"
-				key={this.state.modal_key}
-				/>
+				</Col>
+				</Row>
 			 	<Table
 				 columns={Columns}
 				 dataSource={list}

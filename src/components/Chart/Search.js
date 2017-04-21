@@ -9,7 +9,7 @@ class Search extends React.Component {
   }
   Search_onChange = (value) => {
     console.log(value);
-    this.props.foo(value);
+    this.props.foo(value)
   }
   render(){
     const options = [//search
@@ -20,10 +20,7 @@ class Search extends React.Component {
         {
         value: '2014',
         label: '2014年',
-        children: [{
-          value: 'xihu',
-          label: 'West Lake',
-        }],
+        children: this.props.children
       },{
         value:'2015',
         label: '2015年',
@@ -53,7 +50,7 @@ class Search extends React.Component {
       }];
 
     return(
-       <Cascader options={options} onChange={this.Search_onChange} placeholder="请选择" />
+       <Cascader options={options} onChange={this.Search_onChange}  placeholder="请选择" />
     )
   }
 }

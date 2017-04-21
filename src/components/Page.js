@@ -11,6 +11,7 @@ class Page extends React.Component {
 		return (
 			<Pagination
 			showQuickJumper
+			style={{marginTop:20}}
 			total={this.props.total}
 			current={this.props.current}
 			PageSize={this.props.pagesize}

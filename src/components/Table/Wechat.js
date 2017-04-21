@@ -1,4 +1,4 @@
-import { Table, Icon,Pagination, Button } from 'antd';
+import { Table, Icon,Pagination, Button, Row, Col } from 'antd';
 import React from 'react';
 import { connect } from 'dva';
 import Search from '../Search'
@@ -159,10 +159,17 @@ render(){
 	  		 )
 	  	 }
 	];
-	return(<div>
+	return(
+		<div>
+		<Row>
+			<Col span='2'>
 			<Btn_batch name={'批量重发'} show={this.state.Btn_show} foo={()=>this.batch(this.state.Rows)}/>
+			</Col>
+			<Col span='22'>
 			<Search field={Columns} foo={msg=>this.Search(msg)}
 			foo1={()=>this.Search_clear()}/>
+			</Col>
+		</Row>
 		 	<Table
 			 rowSelection={rowSelection}
 			 columns={Columns}

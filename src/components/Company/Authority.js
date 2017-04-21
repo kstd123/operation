@@ -8,17 +8,19 @@ import Btn from '../Btn'
 import Btn_batch from '../Btn_batch'
 import  './Authority.css'
 const list = [
-		{'corpname':'zzz','cordcope':'123','btrail':'Y','id':'0'},
-		{'corpname':'mmm','cordcode':'000','btrail':'Y','id':'1'},
-		{'corpname':'mmm','cordcode':'000','btrail':'N','id':'2'},
-		{'corpname':'mmm','cordcode':'000','btrail':'Y','id':'3'},
-		{'corpname':'mmm','cordcode':'000','btrail':'Y','id':'4'},
-		{'corpname':'mmm','cordcode':'000','btrail':'Y','id':'5'},
-		{'corpname':'mmm','cordcode':'000','btrail':'N','id':'6'},
-		{'corpname':'mmm','cordcode':'000','btrail':'N','id':'7'},
-		{'corpname':'mmm','cordcode':'000','btrail':'Y','id':'8'},
-		{'corpname':'mmm','cordcode':'000','btrail':'N','id':'9'},
-
+		{'corpname':'zzz','corpid':'123','btrail':'Y','id':'0'},
+		{'corpname':'mmm','corpid':'000','btrail':'Y','id':'1'},
+		{'corpname':'mmm','corpid':'000','btrail':'N','id':'2'},
+		{'corpname':'mmm','corpid':'000','btrail':'Y','id':'3'},
+		{'corpname':'mmm','corpid':'000','btrail':'Y','id':'4'},
+		{'corpname':'mmm','corpid':'000','btrail':'Y','id':'5'},
+		{'corpname':'mmm','corpid':'000','btrail':'N','id':'6'},
+		{'corpname':'mmm','corpid':'000','btrail':'N','id':'7'},
+		{'corpname':'mmm','corpid':'000','btrail':'Y','id':'8'},
+		{'corpname':'mmm','corpid':'000','btrail':'N','id':'91'},
+		{'corpname':'mmm','corpid':'000','btrail':'N','id':'29'},
+		{'corpname':'mmm','corpid':'000','btrail':'N','id':'93'},
+		{'corpname':'mmm','corpid':'000','btrail':'N','id':'94'},
 	]
 
 class Company extends React.Component{
@@ -33,6 +35,7 @@ class Company extends React.Component{
 		authority:false,
 		search_data:'',
 		Btn_show:'false',
+		status:'false',//按钮状态
 		Rows:'',
 		btrail_color:''
 	}
@@ -51,12 +54,17 @@ class Company extends React.Component{
 	}
 	batch(e) {
 		console.log('批量授权了')
-		let res = this.state.data;
+		const res = this.state.data;
+		// const res = list;
 		let arr = [];
 		for(let i in e){
-			if(res[e[i]]!=void(0))
-			arr.push(res[e[i]].id)}
-		console.log(arr.join('|'))
+		if(res[e[i]] != void(0))
+		arr.push(res[e[i]].corpid)
+		}
+		console.log(arr.join("|"))
+		const data = arr.join('|')
+		console.log(data)
+		this.authority_batch(data)
 	}
 	//分页 搜索
 	Pagination(msg) {
@@ -93,7 +101,7 @@ class Company extends React.Component{
 	 .then((data) => {
 		console.log(data.data)
 		for(let i in data.data.allCompanys){
-			data.data.allCompanys[i].btrail=='Y'?data.data.allCompanys[i].btrail="已开通" : data.data.allCompanys[i].btrail="未开通"
+			data.data.allCompanys[i].btrail=='N'?data.data.allCompanys[i].btrail="已开通" : data.data.allCompanys[i].btrail="未开通"
 		}
 		this.setState({
 			loading: false,
@@ -121,6 +129,16 @@ class Company extends React.Component{
 			total: data.data.allRecorders
 		});
 	});
+	}
+	authority_batch(data){
+		const req = request('http://localhost:8088/company/batch',{
+				 headers: { "Content-type": "application/x-www-form-urlencoded; charset=UTF-8"},
+				 method: 'POST',
+				 body:'ids='+data
+			 }).then((data) => {
+				 console.log(data.data)
+				 this.setState({ status:'true' })
+			 })
 	}
 	componentDidMount() {
 		this.post();
@@ -170,7 +188,11 @@ class Company extends React.Component{
 			<div>
 				<Row>
 					<Col span={5}>
-						<Btn_batch name={'批量授权'} show={this.state.Btn_show} foo={()=>this.batch(this.state.Rows)}/>
+						<Btn_batch
+						name={'批量授权'}
+						status={this.state.status}
+						show={this.state.Btn_show}
+						foo={()=>this.batch(this.state.Rows)}/>
 					</Col>
 					<Col span={19}>
 						<Search
@@ -183,7 +205,7 @@ class Company extends React.Component{
 				<Table
 					rowSelection={rowSelection}
 					columns={Columns}
-					dataSource={list}
+					dataSource={this.state.data}
 					loading={this.state.loading}
 					pagination={false}
 					scroll={{ x: 2500 }}

@@ -1,6 +1,6 @@
 
 body {
-  background-color:#595959
+  background-color: rgba(0, 0, 0, 0.43);
 }
 #components-form-demo-normal-login .login-form {
   max-width: 300px;
@@ -11,6 +11,9 @@ body {
 }
 #components-form-demo-normal-login .login-form-button {
   width: 100%;
+}
+.login-form{
+  background-color: red;
 }
 Checkbox {
 	display: block;

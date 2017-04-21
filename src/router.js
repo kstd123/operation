@@ -41,7 +41,7 @@ function RouterConfig({ history, app }) {
     },
 			{
 			path: '/Company',
-			name: 'chartPage',
+			name: 'company',
 			getComponent(nextState, cb) {
 				require.ensure([], (require) => {
 					cb(null, require('./routes/Company/Company'));
@@ -50,7 +50,7 @@ function RouterConfig({ history, app }) {
 		},
 		{
 			path: '/authority',
-			name: 'chartPage',
+			name: 'quanxian',
 			getComponent(nextState, cb) {
 				require.ensure([], (require) => {
 					cb(null, require('./routes/Company/Authority'));
@@ -68,7 +68,7 @@ function RouterConfig({ history, app }) {
 	},
 		{
 		path: '/Math',
-		name: 'mathPage',
+		name: 'cansshu',
 		getComponent(nextState, cb) {
 			require.ensure([], (require) => {
 				cb(null, require('./routes/Math'));
@@ -77,7 +77,7 @@ function RouterConfig({ history, app }) {
 	},
 		{
 			path: '/Email',
-			name: 'chartPage',
+			name: 'youjian',
 			getComponent(nextState, cb) {
 				require.ensure([], (require) => {
 					cb(null, require('./routes/info/Email'));
@@ -86,7 +86,7 @@ function RouterConfig({ history, app }) {
 		},
 		 {
 				path: '/Sms',
-				name: 'tablePage',
+				name: 'duanxin',
 				getComponent(nextState, cb) {
 				require.ensure([], (require) => {
 					cb(null, require('./routes/info/Sms'));

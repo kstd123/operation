@@ -34,7 +34,7 @@ class Chart extends React.Component{
 	    ],
 	    series : [
 	        {
-	            name:'直接访问',
+	            name:this.props.name,
 	            type:'bar',
 	            barWidth: '60%',
 	            data:this.props.data

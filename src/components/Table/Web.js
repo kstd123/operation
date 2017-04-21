@@ -1,4 +1,4 @@
-import { Table, Icon,Pagination, Button } from 'antd';
+import { Table, Icon,Pagination, Button, Col, Row } from 'antd';
 import React from 'react';
 import { connect } from 'dva';
 import request from '../../utils/request';
@@ -145,17 +145,23 @@ render(){
 			 disabled: record.name === 'Disabled User',    // Column configuration not to be checked
 		 }),
 	 };
-	return(<div>
-			<Btn_batch name={'批量重发'} show={this.state.Btn_show} foo={()=>this.batch(this.state.Rows)}/>
-			<Search field={Columns} foo={msg=>this.Search(msg)}
-			foo1={()=>this.Search_clear()}/>
+	return(
+		<div>
+			<Row>
+				<Col span='2'>
+					<Btn_batch name={'批量重发'} show={this.state.Btn_show} foo={()=>this.batch(this.state.Rows)}/>
+				</Col>
+				<Col span='22'>
+						<Search field={Columns} foo={msg=>this.Search(msg)}
+						foo1={()=>this.Search_clear()}/>
+				</Col>
+			</Row>
 		 	<Table
 			 rowSelection={rowSelection}
 			 columns={Columns}
 			 dataSource={this.state.data}
 			 loading={this.state.loading}
 			 pagination={false}/>
-
 			<Page
 			total={this.state.total}
 			current={this.state.current}
