@@ -4,6 +4,8 @@ import { connect } from 'dva';
 import request from '../../utils/request';
 import Search from './CompanySearch'
 import Page from '../Page'
+import File_Btn from './File_Btn'
+import * as _ from '../../Host';
 
 class Button1 extends React.Component {
 	state = {
@@ -37,7 +39,15 @@ const Columns = [
 	 { title:"公司类型",dataIndex:"corptype",key:"corptype"},
 	 { title:"数据源",dataIndex:"datasource",key:"datasource"},
 	 { title:"时间",dataIndex:"ts",key:"ts"},
-	 { title:"权限",dataIndex:"btrail",key:"btrail"}
+	 { title:"权限",dataIndex:"btrail",key:"btrail"},	{
+				title:"操作",
+				key:"action",
+				fixed:'right',
+				width:220,
+				render:(record) => (
+					<File_Btn/>
+				)
+			}
  ]
 
 class Company extends React.Component{
@@ -74,7 +84,7 @@ class Company extends React.Component{
 		}) => {
 		data ="cp="+this.state.current+"&ls="+this.state.pagesize
 		// let info = "col=corpname&kw=84"
-	 const req = request( 'http://localhost:8088/company/list?'+data, {
+	 const req = request(  _.HOST+'company/list?'+data, {
 		 headers: { "Content-type": "application/x-www-form-urlencoded; charset=UTF-8"},
 		 method: 'GET',
 	 })
@@ -92,7 +102,7 @@ class Company extends React.Component{
  	}
  post_search = (data = "") => {
 	 data="?ls="+this.state.pagesize+"&cp="+this.state.current+"&"+this.state.search_data;
-	 const req = request( 'http://localhost:8088/company/list'+ data,
+	 const req = request(  _.HOST+'company/list'+ data,
 	 {
 		 headers: { "Content-type": "application/x-www-form-urlencoded; charset=UTF-8"},
 		 method: 'GET',

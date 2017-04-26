@@ -8,6 +8,8 @@ import Btn from '../Btn'
 import File_Btn from './File_Btn'
 import Modal from './Modal'
 import style from '../style'
+import * as _ from '../../Host';
+
 const list = [
 	{"id":"001","appid":"oopss","corpid":"123456"},
 	{"id":"002","appid":"zzxx"},
@@ -77,7 +79,7 @@ class Upload1 extends React.Component{
 		}) => {
 		data ="cp="+this.state.current+"&ls="+this.state.pagesize
 		// let info = "col=corpname&kw=84"
-	 const req = request( 'http://localhost:8088/pages/appregister?'+data, {
+	 const req = request(  _.HOST+'pages/appregister?'+data, {
 		 headers: { "Content-type": "application/x-www-form-urlencoded; charset=UTF-8"},
 		 method: 'GET',
 	 })
@@ -92,7 +94,7 @@ class Upload1 extends React.Component{
 		}
 	post_search = (data = "") => {
 	 data="?ls="+this.state.pagesize+"&cp="+this.state.current+"&"+this.state.search_data;
-	 const req = request( 'http://localhost:8088/pages/appregister'+ data,
+	 const req = request(  _.HOST+'pages/appregister'+ data,
 	 {
 		 headers: { "Content-type": "application/x-www-form-urlencoded; charset=UTF-8"},
 		 method: 'GET',
@@ -169,7 +171,7 @@ class Upload1 extends React.Component{
 				<Table
 					size='small'
 					columns={Columns}
-					dataSource={list}
+					dataSource={this.state.data}
 					loading={this.state.loading}
 					pagination={false}
 					loading={this.state.authority}

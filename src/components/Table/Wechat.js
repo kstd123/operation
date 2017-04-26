@@ -6,7 +6,7 @@ import request from '../../utils/request';
 import Page from '../Page'
 import Btn from '../Btn'
 import Btn_batch from '../Btn_batch'
-
+import * as _ from '../../Host';
 
 class Wechat extends React.Component{
 	state = {
@@ -26,7 +26,9 @@ class Wechat extends React.Component{
 	//重发回调
 	chongfa(e) {
 		console.log('重发成功')
-		console.log(e.id)
+		console.log(e.fpqqlsh)
+		let data = 'fpqqlshs=' + e.fpqqlsh
+		this.post_chongfa(data)
 	}
 	batch(e) {
 		console.log('批量重发了')
@@ -34,7 +36,10 @@ class Wechat extends React.Component{
 		let arr = [];
 		for(let i in e){
 			if(res[e[i]]!=void(0))
-			arr.push(res[e[i]].id)}
+			arr.push(res[e[i]].fpqqlsh)
+		}
+			let data = 'fpqqlshs=' + arr.join(',');
+			this.post_chongfa(data)
 		console.log(arr.join(','))
 	}
 	//分页 搜索
@@ -57,7 +62,7 @@ class Wechat extends React.Component{
 	}
  post=(data="")=> {
 	  data= "pageNow="+this.state.current+"&pageNum="+this.state.pagesize
-	 const req = request( 'http://localhost:8088/wechat/select/all', {
+	 const req = request(  _.HOST+'wechat/select/all', {
 		 headers: { "Content-type": "application/x-www-form-urlencoded; charset=UTF-8"},
 		 method: 'POST',
 		 body: data,
@@ -80,7 +85,7 @@ class Wechat extends React.Component{
  }
  post_search=(data="")=> {
 	 data = "pageNow="+this.state.current+"&pageNum="+this.state.pagesize+"&"+this.state.search_data
-	const req = request( 'http://localhost:8088/wechat/select/all', {
+	const req = request(  _.HOST+'wechat/select/all', {
 		headers: { "Content-type": "application/x-www-form-urlencoded; charset=UTF-8"},
 		method: 'POST',
 		body: data,
@@ -100,6 +105,18 @@ class Wechat extends React.Component{
 	 }
 	 console.log(data.data.list)
  });
+ }
+ post_chongfa=(data)=>{
+			const req = request(  _.HOST+'wechat/resend', {
+			headers: { "Content-type": "application/x-www-form-urlencoded; charset=UTF-8"},
+			method: 'POST',
+			body: data,
+		}).then((data) =>{
+			console.log(data.data)
+		})
+ }
+ componentDidMount() {
+		this.post();
  }
 	componentDidMount() {
 		 this.post();

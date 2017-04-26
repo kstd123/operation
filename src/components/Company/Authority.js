@@ -7,6 +7,8 @@ import Page from '../Page'
 import Btn from '../Btn'
 import Btn_batch from '../Btn_batch'
 import  './Authority.css'
+import * as _ from '../../Host';
+
 const list = [
 		{'corpname':'zzz','corpid':'123','btrail':'Y','id':'0'},
 		{'corpname':'mmm','corpid':'000','btrail':'Y','id':'1'},
@@ -94,7 +96,7 @@ class Company extends React.Component{
 		}) => {
 		data ="cp="+this.state.current+"&ls="+this.state.pagesize
 		// let info = "col=corpname&kw=84"
-	 const req = request( 'http://localhost:8088/company/listNoOpen?'+data, {
+	 const req = request(  _.HOST+'company/listNoOpen?'+data, {
 		 headers: { "Content-type": "application/x-www-form-urlencoded; charset=UTF-8"},
 		 method: 'GET',
 	 })
@@ -115,7 +117,7 @@ class Company extends React.Component{
 			list[i].btrail=='Y'?list[i].btrail="已开通" : list[i].btrail="未开通"
 		}
 	 data="?ls="+this.state.pagesize+"&cp="+this.state.current+"&"+this.state.search_data;
-	 const req = request( 'http://localhost:8088/company/listNoOpen'+ data,
+	 const req = request(  _.HOST+'company/listNoOpen'+ data,
 	 {
 		 headers: { "Content-type": "application/x-www-form-urlencoded; charset=UTF-8"},
 		 method: 'GET',
@@ -131,7 +133,7 @@ class Company extends React.Component{
 	});
 	}
 	authority_batch(data){
-		const req = request('http://localhost:8088/company/batch',{
+		const req = request( _.HOST+'company/batch',{
 				 headers: { "Content-type": "application/x-www-form-urlencoded; charset=UTF-8"},
 				 method: 'POST',
 				 body:'ids='+data

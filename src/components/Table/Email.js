@@ -6,6 +6,7 @@ import Search from '../Search';
 import Page from '../Page';
 import Btn from '../Btn'
 import Btn_batch from '../Btn_batch'
+import * as _ from '../../Host';
 const list =[
 	{'fpqqlsh':'123','result':'000'},
 	{'fpqqlsh':'123','result':'000'},
@@ -16,6 +17,7 @@ const list =[
 	{'fpqqlsh':'123','result':'000'},
 	{'fpqqlsh':'123','result':'000'},
 ]
+// const HOST =  _.HOST+'';
 class Tables extends React.Component{
 	state = {
 		data: [],
@@ -36,7 +38,9 @@ class Tables extends React.Component{
 	//重发回调
 	chongfa(e) {
 		console.log('重发成功')
-		console.log(e.id)
+		console.log(e.fpqqlsh)
+		let data = 'fpqqlshs=' + e.fpqqlsh
+		this.post_chongfa(data)
 	}
 	batch(e) {
 		console.log('批量重发了')
@@ -44,7 +48,10 @@ class Tables extends React.Component{
 		let arr = [];
 		for(let i in e){
 			if(res[e[i]]!=void(0))
-			arr.push(res[e[i]].id)}
+			arr.push(res[e[i]].fpqqlsh)
+		}
+			let data = 'fpqqlshs=' + arr.join(',');
+			this.post_chongfa(data)
 		console.log(arr.join(','))
 	}
 	//分页 搜索
@@ -67,7 +74,7 @@ class Tables extends React.Component{
 	}
  	post=(data="")=> {
 	  data= "pageNow="+this.state.current+"&pageNum="+this.state.pagesize
-	 const req = request( 'http://localhost:8088/email/select/all', {
+	 const req = request( _.HOST +'email/select/all', {
 		 headers: { "Content-type": "application/x-www-form-urlencoded; charset=UTF-8"},
 		 method: 'POST',
 		 body: data,
@@ -90,29 +97,39 @@ class Tables extends React.Component{
  }
  	post_search=(data="")=> {
 	 data = "pageNow="+this.state.current+"&pageNum="+this.state.pagesize+"&"+this.state.search_data
-	const req = request( 'http://localhost:8088/email/select/all', {
-		headers: { "Content-type": "application/x-www-form-urlencoded; charset=UTF-8"},
-		method: 'POST',
-		body: data,
-	}).then((data) => {
-	 console.log(data.data.date)
-	 this.setState({
-		 loading: false,
-	 });
-	 if(data.data.code=='0001'){
-		 console.log('查询错误')
-		 alert('数据库查询错误')
-	 }else{
+			const req = request( _.HOST +'email/select/all', {
+			headers: { "Content-type": "application/x-www-form-urlencoded; charset=UTF-8"},
+			method: 'POST',
+			body: data,
+		}).then((data) => {
+		 console.log(data.data.date)
 		 this.setState({
-			 data:  data.data.date.list,
-			 total: data.data.date.rowAll,
+			 loading: false,
 		 });
-	 }
-	 console.log(data.data.list)
- });
- 	}
+		 if(data.data.code=='0001'){
+			 console.log('查询错误')
+			 alert('数据库查询错误')
+		 }else{
+			 this.setState({
+				 data:  data.data.date.list,
+				 total: data.data.date.rowAll,
+			 });
+		 }
+		 console.log(data.data.list)
+	 });
+	 	}
+	post_chongfa=(data)=>{
+			 const req = request( _.HOST +'email/resend', {
+			 headers: { "Content-type": "application/x-www-form-urlencoded; charset=UTF-8"},
+			 method: 'POST',
+			 body: data,
+		 }).then((data) =>{
+			 console.log(data.data)
+		 })
+	}
 	componentDidMount() {
 		 this.post();
+		 console.log(_.HOST)
  }
 
 render(){
@@ -162,7 +179,7 @@ render(){
 		 	<Table
 			 rowSelection={rowSelection}
 			 columns={Columns}
-			 dataSource={list}
+			 dataSource={this.state.data}
 			 loading={this.state.loading}
 			 pagination={false}/>
 

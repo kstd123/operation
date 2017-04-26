@@ -20,15 +20,15 @@ function RouterConfig({ history, app }) {
 				});
 			},
 		},
-    {
-      path: '/index',
-      name: 'IndexPage',
-      getComponent(nextState, cb) {
-        require.ensure([], (require) => {
-          cb(null, require('./routes/IndexPage'));
-        });
+      {
+        path: '/index',
+        name: 'IndexPage',
+        getComponent(nextState, cb) {
+          require.ensure([], (require) => {
+            cb(null, require('./routes/IndexPage'));
+          });
+        },
       },
-    },
     {
       path: '/users',
       name: 'UsersPage',
@@ -57,60 +57,60 @@ function RouterConfig({ history, app }) {
 				});
 			},
 		},
-		{
-		path: '/Upload',
-		name: 'UploadPage',
-		getComponent(nextState, cb) {
-			require.ensure([], (require) => {
-				cb(null, require('./routes/Company/CompanyUpload'));
-			});
-		},
-	},
-		{
-		path: '/Math',
-		name: 'cansshu',
-		getComponent(nextState, cb) {
-			require.ensure([], (require) => {
-				cb(null, require('./routes/Math'));
-			});
-		},
-	},
-		{
-			path: '/Email',
-			name: 'youjian',
-			getComponent(nextState, cb) {
-				require.ensure([], (require) => {
-					cb(null, require('./routes/info/Email'));
-				});
-			},
-		},
-		 {
-				path: '/Sms',
-				name: 'duanxin',
-				getComponent(nextState, cb) {
-				require.ensure([], (require) => {
-					cb(null, require('./routes/info/Sms'));
-				});
-			},
-		},
-			{
-			path: '/Url',
-			name: 'chartPage',
-			getComponent(nextState, cb) {
-				require.ensure([], (require) => {
-					cb(null, require('./routes/info/Url'));
-				});
-			},
-		},
-			{
-			path: '/Web',
-			name: 'chartPage',
-			getComponent(nextState, cb) {
-				require.ensure([], (require) => {
-					cb(null, require('./routes/info/Web'));
-				});
-			},
-		},
+  	{
+  		path: '/Upload',
+  		name: 'UploadPage',
+  		getComponent(nextState, cb) {
+  			require.ensure([], (require) => {
+  				cb(null, require('./routes/Company/CompanyUpload'));
+  			});
+  		},
+  	},
+  		{
+  		path: '/Math',
+  		name: 'cansshu',
+  		getComponent(nextState, cb) {
+  			require.ensure([], (require) => {
+  				cb(null, require('./routes/Math'));
+  			});
+  		},
+  	 },
+  		{
+  			path: '/Email',
+  			name: 'youjian',
+  			getComponent(nextState, cb) {
+  				require.ensure([], (require) => {
+  					cb(null, require('./routes/info/Email'));
+  				});
+  			},
+  		},
+  		 {
+  				path: '/Sms',
+  				name: 'duanxin',
+  				getComponent(nextState, cb) {
+  				require.ensure([], (require) => {
+  					cb(null, require('./routes/info/Sms'));
+  				});
+  			},
+  		},
+  			{
+  			path: '/Url',
+  			name: 'chartPage',
+  			getComponent(nextState, cb) {
+  				require.ensure([], (require) => {
+  					cb(null, require('./routes/info/Url'));
+  				});
+  			},
+  		},
+  			{
+  			path: '/Web',
+  			name: 'chartPage',
+  			getComponent(nextState, cb) {
+  				require.ensure([], (require) => {
+  					cb(null, require('./routes/info/Web'));
+  				});
+  			},
+  		},
 			{
 			path: '/Wechat',
 			name: 'chartPage',
@@ -121,8 +121,8 @@ function RouterConfig({ history, app }) {
 			},
 		},
 		{
-			path: '/chart',
-			name: 'chartPage',
+			path: '/Chart_detail',
+			name: 'taxPage',
 			getComponent(nextState, cb) {
 				require.ensure([], (require) => {
 					cb(null, require('./routes/Chart/Chart_detail'));

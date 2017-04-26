@@ -2,7 +2,6 @@ import { Card, Col, Row, Icon } from 'antd';
 import React from 'react';
 import './Card.css'
 import request from '../../utils/request'
-import fetchJsonp from 'fetch-jsonp'
 class React_Card extends React.Component{
 	state={
 		loading:false,

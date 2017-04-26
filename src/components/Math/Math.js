@@ -6,6 +6,8 @@ import request from '../../utils/request';
 import Mathmodal from './Mathmodal';
 import MathSearch from './MathSearch';
 import Page from '../Page'
+import * as _ from '../../Host';
+
 const list = [{"id":"001","code":"001002","corpname":"yon1"},{"id":"002","code":"001003","corpname":"yon1"}]
 
 class Tables extends React.Component{
@@ -55,7 +57,7 @@ class Tables extends React.Component{
  post = (data = "") => {
 	 data = "pageNow="+this.state.current+"&pageNum="+this.state.pagesize
 	this.setState({ search_data: data,loading:false })
-	 const req = request( 'http://localhost:8088/parameter/selectByCondition', {
+	 const req = request(  _.HOST+'parameter/selectByCondition', {
 		 headers: { "Content-type": "application/x-www-form-urlencoded; charset=UTF-8"},
 		 method: 'POST',
 		 body: data,
@@ -70,7 +72,7 @@ class Tables extends React.Component{
  }
  post_search = (data = "") => {
 	 data="pageNow="+this.state.current+"&pageNum="+this.state.pagesize +"&"+ this.state.search_data
-	 const req = request( 'http://localhost:8088/parameter/selectByCondition', {
+	 const req = request(  _.HOST+'parameter/selectByCondition', {
 		 headers: { "Content-type": "application/x-www-form-urlencoded; charset=UTF-8"},
 		 method: 'POST',
 		 body: data,
@@ -84,7 +86,7 @@ class Tables extends React.Component{
 	});
  }
  updata_modal = (data) => {
-	 const req = request( 'http://localhost:8088/parameter/update', {
+	 const req = request(  _.HOST+'parameter/update', {
 		 headers: { "Content-type": "application/x-www-form-urlencoded; charset=UTF-8"},
 		 method: 'POST',
 		 body: data,
@@ -93,7 +95,7 @@ class Tables extends React.Component{
 	});
  }
  add_modal = (data) => {
-	const req = request( 'http://localhost:8088/parameter/add', {
+	const req = request(  _.HOST+'parameter/add', {
 		headers: { "Content-type": "application/x-www-form-urlencoded; charset=UTF-8"},
 		method: 'POST',
 		body: data,

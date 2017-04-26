@@ -3,7 +3,7 @@ import React from 'react';
 
 class Page extends React.Component {
 	pageChange=(e)=>{
-		console.log("当前位于第" + e + "页")
+		// console.log("当前位于第" + e + "页")
 		this.props.Pagination_foo(e);//传出当前页
 
 	}

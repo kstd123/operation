@@ -4,7 +4,7 @@ const FormItem = Form.Item;
 import request from '../../utils/request';
 const Arr_company = ['corpname', 'corpcode', 'contact', 'corpaddress', 'corpphone', 'corpemail']
 const Arr_upload = ['id', 'appid', 'corpid', 'files' ]
-const Arr_authority = ['corpname', 'corpcode', 'contact', 'corpaddress', 'corpphone', 'corpmail', 'businesslicense' ]
+const Arr_authority = ['corpname', 'corpcode', 'contact', 'corpaddress', 'corpphone', 'corpemail', 'businesslicense' ]
 let key = '';
 let message = '';
 class MathSearch extends React.Component {

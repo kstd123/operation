@@ -67,7 +67,7 @@ class Tables extends React.Component{
 	}
  	post=(data="")=> {
 	  data= "pageNow="+this.state.current+"&pageNum="+this.state.pagesize
-	 const req = request( 'http://localhost:8088/email/select/all', {
+	 const req = request(  _.HOST+'email/select/all', {
 		 headers: { "Content-type": "application/x-www-form-urlencoded; charset=UTF-8"},
 		 method: 'POST',
 		 body: data,
@@ -90,7 +90,7 @@ class Tables extends React.Component{
  }
  	post_search=(data="")=> {
 	 data = "pageNow="+this.state.current+"&pageNum="+this.state.pagesize+"&"+this.state.search_data
-	const req = request( 'http://localhost:8088/email/select/all', {
+	const req = request(  _.HOST+'email/select/all', {
 		headers: { "Content-type": "application/x-www-form-urlencoded; charset=UTF-8"},
 		method: 'POST',
 		body: data,

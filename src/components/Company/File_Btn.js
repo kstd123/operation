@@ -38,14 +38,7 @@ class File_Btn extends React.Component{
   },
 };
 		return(
-			<div style={{ marginLeft: 46, height: 125, width: 400 }}>
-    <Dragger {...props}>
-      <p className="ant-upload-drag-icon">
-        <Icon type="inbox" />
-      </p>
-      <p className="ant-upload-text">证书上传区域</p>
-
-    </Dragger>
+			<div>
 			<Upload {...props}>
 				<Button type="primary">
 					<Icon type="upload" /> 上传

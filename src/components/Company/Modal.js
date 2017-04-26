@@ -153,7 +153,7 @@ class Mathmodal extends React.Component {
             <Col span={10}></Col>
             <FormItem
             >
-            <File_Btn/>
+
             </FormItem></Row>
           </Form>
         </Modal>

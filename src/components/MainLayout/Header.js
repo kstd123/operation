@@ -83,7 +83,7 @@ class Headers extends React.Component{
 	        </SubMenu>
 					<SubMenu key="sub4" title={<span><Icon type="area-chart" style={{margin:"0 30px 0 0 "}}/><span>报表</span></span>}>
 					 <Menu.Item key="12"><Link to="/watch">开票总览</Link></Menu.Item>
-					 <Menu.Item key="13"><Link to="/Chart">详情统计</Link></Menu.Item>
+					 <Menu.Item key="13"><Link to="/Chart_detail">按税号统计</Link></Menu.Item>
 				 </SubMenu>
 	      </Menu>
 			</Sider>
