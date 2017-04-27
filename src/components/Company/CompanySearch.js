@@ -46,7 +46,7 @@ class MathSearch extends React.Component {
 	}
 	handleReset = () => {//重置
 		this.props.form.resetFields();
-		key=''
+		// key=''
 		this.props.foo1();
 		this.info_rest()
 	}
@@ -72,7 +72,7 @@ class MathSearch extends React.Component {
 		for (let i = 0; i < field.length  ; i++) {
 			children.push(
 				<Col span={8}>
-					<FormItem {...formItemLayout} label={field[i].title}  key={i}>
+					<FormItem {...formItemLayout} label={field[i].title}>
 						{getFieldDecorator(field[i].key)(
 							<Input placeholder="键入以搜索" />
 						)}
@@ -84,7 +84,7 @@ class MathSearch extends React.Component {
 		let temp = this.props.Columns;
 		for (let i in temp){
 			title_arr.push(
-				<Option value={i} key={i+1}>{temp[i].title}</Option>
+				<Option value={i} key={i+'1'}>{temp[i].title}</Option>
 			)
 		}
 		// console.log(title_arr.length-3)

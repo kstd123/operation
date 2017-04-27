@@ -1,4 +1,4 @@
-import { Table, Icon,Pagination, Button, Form, Row, Col, Input } from 'antd';
+import { Table, Icon,Pagination, Button, Form, Row, Col, Input,  message } from 'antd';
 import React from 'react';
 const FormItem = Form.Item;
 import { connect } from 'dva';
@@ -8,7 +8,10 @@ import MathSearch from './MathSearch';
 import Page from '../Page'
 import * as _ from '../../Host';
 
-const list = [{"id":"001","code":"001002","corpname":"yon1"},{"id":"002","code":"001003","corpname":"yon1"}]
+const list = [
+	{"id":"001","code":"001002","corpname":"yon1"},
+	{"id":"002","code":"001003","corpname":"yon1"}
+]
 
 class Tables extends React.Component{
 
@@ -42,10 +45,12 @@ class Tables extends React.Component{
 	}
 	add(msg){
 		this.add_modal(msg);
+		this.post();
 		// console.log("新增了"+msg)
 	}
 	updata(msg) {
 		this.updata_modal(msg);
+		this.post();
 		// console.log("修改了"+msg)
 	}
 	change_key(){
@@ -62,7 +67,7 @@ class Tables extends React.Component{
 		 method: 'POST',
 		 body: data,
 	 }).then((data) => {
-		console.log(data.data)
+		// console.log(data.data)
 		this.setState({
 			loading: false,
 			data:  data.data.data.list,
@@ -92,6 +97,7 @@ class Tables extends React.Component{
 		 body: data,
 	 }).then((data) => {
 		console.log(data.data)
+		 data.data.data.code=='0000'?message.success('修改成功'):message.error(data.data.msg +'  状态码:'+data.data.code );
 	});
  }
  add_modal = (data) => {
@@ -101,6 +107,7 @@ class Tables extends React.Component{
 		body: data,
 	}).then((data) => {
 	 console.log(data.data)
+	 data.data.data.code=='0000'?message.success('新增成功'):message.error(data.data.msg +'  状态码:'+data.data.code );
  });
  }
 	componentDidMount() {
@@ -174,9 +181,10 @@ class Tables extends React.Component{
 				</Row>
 			 	<Table
 				 columns={Columns}
-				 dataSource={list}
+				 dataSource={this.state.data}
 				 loading={this.state.loading}
-				 pagination={false}/>
+				 pagination={false}
+				 rowKey='id'/>
 				<Page
 				total={this.state.total}
 				current={this.state.current}

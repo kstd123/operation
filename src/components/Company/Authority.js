@@ -1,4 +1,4 @@
-import { Table, Icon,Pagination, Button, Row, Col } from 'antd';
+import { Table, Icon,Pagination, Button, Row, Col, message } from 'antd';
 import React from 'react';
 import { connect } from 'dva';
 import request from '../../utils/request';
@@ -10,19 +10,19 @@ import  './Authority.css'
 import * as _ from '../../Host';
 
 const list = [
-		{'corpname':'zzz','corpid':'123','btrail':'Y','id':'0'},
-		{'corpname':'mmm','corpid':'000','btrail':'Y','id':'1'},
-		{'corpname':'mmm','corpid':'000','btrail':'N','id':'2'},
-		{'corpname':'mmm','corpid':'000','btrail':'Y','id':'3'},
-		{'corpname':'mmm','corpid':'000','btrail':'Y','id':'4'},
-		{'corpname':'mmm','corpid':'000','btrail':'Y','id':'5'},
-		{'corpname':'mmm','corpid':'000','btrail':'N','id':'6'},
-		{'corpname':'mmm','corpid':'000','btrail':'N','id':'7'},
-		{'corpname':'mmm','corpid':'000','btrail':'Y','id':'8'},
-		{'corpname':'mmm','corpid':'000','btrail':'N','id':'91'},
-		{'corpname':'mmm','corpid':'000','btrail':'N','id':'29'},
-		{'corpname':'mmm','corpid':'000','btrail':'N','id':'93'},
-		{'corpname':'mmm','corpid':'000','btrail':'N','id':'94'},
+		{'corpname':'zzz','corpid':'123','btrail':'Y','key':'0'},
+		{'corpname':'mmm','corpid':'000','btrail':'Y','key':'1'},
+		{'corpname':'mmm','corpid':'000','btrail':'N','key':'2'},
+		{'corpname':'mmm','corpid':'000','btrail':'Y','key':'3'},
+		{'corpname':'mmm','corpid':'000','btrail':'Y','key':'4'},
+		{'corpname':'mmm','corpid':'000','btrail':'Y','key':'5'},
+		{'corpname':'mmm','corpid':'000','btrail':'N','key':'6'},
+		{'corpname':'mmm','corpid':'000','btrail':'N','key':'7'},
+		{'corpname':'mmm','corpid':'000','btrail':'Y','key':'8'},
+		{'corpname':'mmm','corpid':'000','btrail':'N','key':'91'},
+		{'corpname':'mmm','corpid':'000','btrail':'N','key':'29'},
+		{'corpname':'mmm','corpid':'000','btrail':'N','key':'93'},
+		{'corpname':'mmm','corpid':'000','btrail':'N','key':'94'},
 	]
 
 class Company extends React.Component{
@@ -47,8 +47,8 @@ class Company extends React.Component{
 	}
 	//开通 授权
 	kaitong(e) {
+		this._open(e.corpid)
 		this.setState({ status_kaitong:'true' })
-		// this._open(e.corpid)
 	}
 	shouquan(e) {
 		// console.log('授权成功')
@@ -65,8 +65,8 @@ class Company extends React.Component{
 		if(res[e[i]] != void(0))
 		arr.push(res[e[i]].corpid)
 		}
-		console.log(arr.join("|"))
-		const data = arr.join('|')
+		console.log(arr.join(","))
+		const data = arr.join(',')
 		console.log(data)
 		this.authority_batch(data)
 	}
@@ -131,26 +131,27 @@ class Company extends React.Component{
 		});
 	});
 	}
+
 	authority_batch(data){
-		const req = request( _.HOST+'company/authorize',{
-				 headers: { "Content-type": "application/x-www-form-urlencoded; charset=UTF-8"},
-				 method: 'POST',
-				 body:'ids='+data
-			 }).then((data) => {
-				 console.log(data.data)
-				 this.setState({ status:'true' })
-			 })
-	}
-	 _open(data){
-		 const req = request( _.HOST+'company/open',{
-			  headers: { "Content-type": "application/x-www-form-urlencoded; charset=UTF-8"},
-				method: 'POST',
-				body:'corpid='+data
-			}).then((data) => {
-				 console.log(data.data.result.msg)
-				 this.setState({ status:'true' })
-			  })
-			}
+			const req = request( _.HOST+'company/authorize',{
+					 headers: { "Content-type": "application/x-www-form-urlencoded; charset=UTF-8"},
+					 method: 'POST',
+					 body:'ids='+data
+				 }).then((data) => {
+					data.data.result.code == '0000' ? message.success(data.data.result.msg) : message.error(data.data.result.msg+'  状态码：'+data.data.result.code)
+						this.post()
+				 })
+		}
+		 _open(data){
+			 const req = request( _.HOST+'company/open',{
+				  headers: { "Content-type": "application/x-www-form-urlencoded; charset=UTF-8"},
+					method: 'POST',
+					body:'corpid='+data
+				}).then((data) => {
+					data.data.result.code == '0000' ? message.success(data.data.result.msg+'。。') : message.error(data.data.result.msg+'  状态码：'+data.data.result.code)
+						this.post();
+				  })
+				}
 	componentDidMount() {
 		this.post();
 	}
@@ -235,7 +236,8 @@ class Company extends React.Component{
 					scroll={{ x: 2500 }}
 					loading={this.state.authority}
 					onclick={this.enterLoading}
-					rowKey={record => record.id}
+					rowKey='key'
+
 				/>
 				<Page
 					showQuickJumper

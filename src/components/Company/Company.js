@@ -7,27 +7,6 @@ import Page from '../Page'
 import File_Btn from './File_Btn'
 import * as _ from '../../Host';
 
-// class Button1 extends React.Component {
-// 	state = {
-// 		Btn_loading:false,
-// 		name: '开通'
-// 	}
-// 	enterLoading = ()=> {
-// 		let self =this;
-// 		this.setState({ Btn_loading: true })
-// 		setTimeout(()=>{
-// 			self.setState({ Btn_loading: false, name:'已开通' })
-// 		},2000)
-// 	}
-//
-// 		render() {
-// 			return(
-// 				<Button type="primary" loading={this.state.Btn_loading} onClick={this.enterLoading}>{this.state.name}</Button>
-// 			)
-// 		}
-// }
-
-
 class Company extends React.Component{
 
 	state = {
@@ -100,20 +79,7 @@ class Company extends React.Component{
 		});
 	});
  }
- // post_upload = (data = "") => {
- // const req = request(  _.HOST+'page/upload',
- // {
- // 	headers: { "Content-type": "application/x-www-form-urlencoded; charset=UTF-8"},
- // 	method: 'POST',
- // 	body: data
- // }).then((data) => {
- //  this.setState({
- // 	 loading: false,
- // 	 data: data.data.allCompanys,
- // 	 total: data.data.allRecorders
- //  });
- // });
- // }
+
 	componentDidMount() {
 	this.post();
 	}
@@ -162,6 +128,7 @@ class Company extends React.Component{
 				pagination={false}
 				scroll={{ x: 2500 }}
 				loading={this.state.authority}
+				rowKey='corpcode'
 				/>
 			<Page
 			total={this.state.total}

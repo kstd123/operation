@@ -177,6 +177,7 @@ render(){
 				</Col>
 			</Row>
 		 	<Table
+			
 			 rowSelection={rowSelection}
 			 columns={Columns}
 			 dataSource={this.state.data}
