@@ -1,42 +1,39 @@
 import { Upload, Icon, Button, message } from 'antd';
 import React from 'react';
+import * as _ from '../../Host';
+
 const Dragger = Upload.Dragger;
 class File_Btn extends React.Component{
+	// let res = this.props.record;
+
 	render(){
+		let self = this.props
+		// let res = 'corpname='+ self.corpname+'corpcode='+ self.corpcode;
+		let res = {'corpname':self.corpname,'corpcode':self.corpcode}
 		const props = {
-		  name: 'file',
-		  action: '//jsonplaceholder.typicode.com/posts/',
+		  name: 'pic',
+		  action: _.HOST+'pages/upload',
+			data: res,
 		  headers: {
 		    authorization: 'authorization-text',
 		  },
 		  onChange(info) {
 		    if (info.file.status !== 'uploading') {
-		      console.log(info.file, info.fileList);
+		      // console.log(info.file, info.fileList, );
+
+					setTimeout(()=>{
+						self.file(data)
+					},0)
+
 		    }
 		    if (info.file.status === 'done') {
-		      message.success(`${info.file.name} file uploaded successfully`);
+		      message.success(`${info.file.name}上传成功`);
 		    } else if (info.file.status === 'error') {
-		      message.error(`${info.file.name} file upload failed.`);
+		      message.error(`${info.file.name}上传失败`);
 		    }
 		  },
 		};
-	const props1 = {
-  name: 'file',
-  multiple: true,
-  showUploadList: false,
-  action: '//jsonplaceholder.typicode.com/posts/',
-  onChange(info) {
-    const status = info.file.status;
-    if (status !== 'uploading') {
-      console.log(info.file, info.fileList);
-    }
-    if (status === 'done') {
-      message.success(`${info.file.name} file uploaded successfully.`);
-    } else if (status === 'error') {
-      message.error(`${info.file.name} file upload failed.`);
-    }
-  },
-};
+
 		return(
 			<div>
 			<Upload {...props}>

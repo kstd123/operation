@@ -1,4 +1,4 @@
-import { Table, Icon,Pagination, Button, Row, Col } from 'antd';
+import { Table, Icon, Pagination, Button, Row, Col, message } from 'antd';
 import React from 'react';
 import { connect } from 'dva';
 import Search from '../Search'
@@ -112,7 +112,8 @@ class Wechat extends React.Component{
 			method: 'POST',
 			body: data,
 		}).then((data) =>{
-			console.log(data.data)
+			console.log(data.data.msg)
+			data.data.code == '0000'? message.success('重发成功') : message.error(data.data.msg +'  状态码:'+data.data.code );
 		})
  }
  componentDidMount() {
@@ -126,10 +127,10 @@ render(){
 	const rowSelection = {
 		 onChange: this.row_onChange,
 		 onSelect: (record, selected, selectedRows) => {
-			 console.log(record, selected, selectedRows);
+			//  console.log(record, selected, selectedRows);
 		 },
 		 onSelectAll: (selected, selectedRows, changeRows) => {
-			 console.log(selected, selectedRows, changeRows);
+			//  console.log(selected, selectedRows, changeRows);
 		 },
 		 getCheckboxProps: record => ({
 			 disabled: record.name === 'Disabled User',    // Column configuration not to be checked

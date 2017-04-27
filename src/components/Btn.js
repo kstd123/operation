@@ -7,13 +7,10 @@ class Btn extends React.Component {
 		f_name: ''
 	}
 	enterLoading = ()=> {
-		let self =this;
+		// let self =this;
 		this.setState({ loading: true })
 		this.props.foo()
-		this.props.status == 'ture' ? this.setState({loading:false,f_name:'已'}) : console.log('失败')
-		// setTimeout(()=>{
-		// 	self.setState({ loading: false, f_name:'已' })
-		// },2000)
+		this.props.status == 'true' ? this.setState({loading:false,f_name:'已'}) : console.log('失败')
 	}
 		render() {
 			const show = this.props.show;

@@ -68,7 +68,7 @@ class Headers extends React.Component{
 	        <SubMenu key="sub1" title={<span><Icon type="team" style={{margin:"0 30px 0 0 "}}/><span>公司</span></span>}>
 	            <Menu.Item key="1"><Link to="/Company">公司管理</Link></Menu.Item>
 	            <Menu.Item key="2"><Link to="/Authority">授权管理</Link></Menu.Item>
-							<Menu.Item key="3"><Link to="/Upload">证书上传</Link></Menu.Item>
+							<Menu.Item key="3"><Link to="/Upload">证书查看</Link></Menu.Item>
 	        </SubMenu>
 					<SubMenu key="sub2" title={<span><Icon type="mail" style={{margin:"0 30px 0 0 "}}/><span>参数</span></span>}>
 						<Menu.Item key="5"><Link to="/Math">参数列表</Link></Menu.Item>

@@ -47,12 +47,14 @@ class Company extends React.Component{
 	}
 	//开通 授权
 	kaitong(e) {
-		console.log('开通成功')
-		console.log(e)
+		this.setState({ status_kaitong:'true' })
+		// this._open(e.corpid)
 	}
 	shouquan(e) {
-		console.log('授权成功')
-		console.log(e)
+		// console.log('授权成功')
+		// console.log(e)
+		this.authority_batch(e.corpid)
+		this.setState({ status_shouquan: 'true' })
 	}
 	batch(e) {
 		console.log('批量授权了')
@@ -122,9 +124,6 @@ class Company extends React.Component{
 		 headers: { "Content-type": "application/x-www-form-urlencoded; charset=UTF-8"},
 		 method: 'GET',
 	 }).then((data) => {
-		//  for(let i in data.data.allCompanys){
-		// 	 data.data.allCompanys[i].btrail=='Y'?data.data.allCompanys[i].btrail="已开通" : data.data.allCompanys[i].btrail="未开通"
-		//  }
 		this.setState({
 			loading: false,
 			data: data.data.allCompanys,
@@ -133,7 +132,7 @@ class Company extends React.Component{
 	});
 	}
 	authority_batch(data){
-		const req = request( _.HOST+'company/batch',{
+		const req = request( _.HOST+'company/authorize',{
 				 headers: { "Content-type": "application/x-www-form-urlencoded; charset=UTF-8"},
 				 method: 'POST',
 				 body:'ids='+data
@@ -142,6 +141,16 @@ class Company extends React.Component{
 				 this.setState({ status:'true' })
 			 })
 	}
+	 _open(data){
+		 const req = request( _.HOST+'company/open',{
+			  headers: { "Content-type": "application/x-www-form-urlencoded; charset=UTF-8"},
+				method: 'POST',
+				body:'corpid='+data
+			}).then((data) => {
+				 console.log(data.data.result.msg)
+				 this.setState({ status:'true' })
+			  })
+			}
 	componentDidMount() {
 		this.post();
 	}
@@ -168,8 +177,21 @@ class Company extends React.Component{
 				 width:220,
 				 render:(record) => (
 					 	<div>
-							<span><Btn show={'true'} name={'开通'}foo={()=>this.kaitong(record)}/></span>
-							<span><Btn show={'true'} name={'授权'}foo={()=>this.shouquan(record)}/></span>
+							<span>
+								<Btn
+								show={'true'}
+								name={'开通'}
+							  foo={()=>this.kaitong(record)}
+								status={this.state.status_kaitong}
+								/>
+							</span>
+							<span>
+								<Btn
+								show={'true'}
+								name={'授权'}
+								foo={()=>this.shouquan(record)}
+								status={this.state.status_shouquan}/>
+							</span>
 						</div>
 				 )
 			 }
